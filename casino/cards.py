@@ -1,0 +1,177 @@
+import random
+from collections import defaultdict
+
+card_order_dict = {"2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10,"J":11, "Q":12, "K":13, "A":14}
+
+class Card(object):
+
+    def __init__(self, suit, numerical_value, name, symbol=None):
+        self.suit = suit
+        self.numerical_value = numerical_value
+        self.name = name
+        self.symbol = symbol
+        self.value = str(numerical_value)
+        if numerical_value > 10:
+            self.value = name[0].upper()
+
+    def __repr__(self):
+        return self.value + " " +self.symbol
+
+class Deck(object):
+
+    def __init__(self, cards=[]):
+        self.cards = cards
+
+    def reset(self):
+        self.cards = []
+        for i in range(2, 11):
+            self.cards.append(Card("heart", i, str(i), "♥"))
+
+        self.cards.append(Card("heart", 11, "jack", "♥"))
+        self.cards.append(Card("heart", 12, "queen", "♥"))
+        self.cards.append(Card("heart", 13, "king", "♥"))
+        self.cards.append(Card("heart", 14, "ace", "♥"))
+        for i in range(2, 11):
+            self.cards.append(Card("diamond", i, str(i), "♦"))
+
+        self.cards.append(Card("diamond", 11, "jack", "♦"))
+        self.cards.append(Card("diamond", 12, "queen", "♦"))
+        self.cards.append(Card("diamond", 13, "king", "♦"))
+        self.cards.append(Card("diamond", 14, "ace", "♦"))
+        for i in range(2, 11):
+            self.cards.append(Card("club", i, str(i), "♣"))
+
+        self.cards.append(Card("club", 11, "jack", "♣"))
+        self.cards.append(Card("club", 12, "queen", "♣"))
+        self.cards.append(Card("club", 13, "king", "♣"))
+        self.cards.append(Card("club", 14, "ace", "♣"))
+        for i in range(2, 11):
+            self.cards.append(Card("spade", i, str(i), "♠"))
+
+        self.cards.append(Card("spade", 11, "jack", "♠"))
+        self.cards.append(Card("spade", 12, "queen", "♠"))
+        self.cards.append(Card("spade", 13, "king", "♠"))
+        self.cards.append(Card("spade", 14, "ace", "♠"))
+
+    def get_hand(self, num_cards=5):
+        hand = random.sample(self.cards, num_cards)
+        self.cards = [c for c in self.cards if c not in hand]
+        return Hand(hand)
+
+    def __repr__(self):
+        ret = ""
+        for c in self.cards:
+            ret += str(c)
+        return ret
+
+
+class Hand(object):
+
+    def __init__(self, cards):
+        self.cards = cards
+
+    def get_highest_score(self):
+        if self.check_straight_flush():
+            return "straight_flush"
+        elif self.check_four_of_kind():
+            return "four_of_a_kind"
+        elif self.check_full_house():
+            return "full_house"
+        elif self.check_flush():
+            return "flush"
+        elif self.check_straight():
+            return "straight"
+        elif self.check_three_of_kind():
+            return "three_of_a_kind"
+        elif self.check_two_pairs():
+            return "two_pair"
+        elif self.check_pair():
+            return "pair"
+        else:
+            return None
+
+    def check_pair(self, jacks_or_better=True):
+        for idx, c in enumerate(self.cards):
+            if c.numerical_value >= 11 or not jacks_or_better:
+                h_temp = self.cards.copy()
+                del h_temp[idx]
+                for cc in h_temp:
+                    if c.numerical_value == cc.numerical_value:
+                        return True
+        return False
+
+    def check_two_pairs(self):
+        values = [i.value for i in self.cards]
+        value_counts = defaultdict(lambda:0)
+        for v in values:
+            value_counts[v]+=1
+        if sorted(value_counts.values())==[1,2,2]:
+            return True
+        else:
+            return False
+
+    def check_three_of_kind(self):
+        values = [i.value for i in self.cards]
+        value_counts = defaultdict(lambda:0)
+        for v in values:
+            value_counts[v]+=1
+        if set(value_counts.values()) == set([3,1]):
+            return True
+        return False
+
+    def check_four_of_kind(self):
+        values = [i.value for i in self.cards]
+        value_counts = defaultdict(lambda:0)
+        for v in values:
+            value_counts[v]+=1
+        if set(value_counts.values()) == set([4,1]):
+            return True
+        return False
+
+    def check_full_house(self):
+        values = [i.value for i in self.cards]
+        value_counts = defaultdict(lambda:0)
+        for v in values:
+            value_counts[v]+=1
+        if sorted(value_counts.values()) == [2,3]:
+            return True
+        return False
+
+    def check_flush(self):
+        suits = [c.suit for c in self.cards]
+        if len(set(suits)) == 1:
+          return True
+        return False
+
+    def check_straight(self):
+        values = [i.value for i in self.cards]
+        value_counts = defaultdict(lambda:0)
+        for v in values:
+            value_counts[v] += 1
+        rank_values = [card_order_dict[i] for i in values]
+        value_range = max(rank_values) - min(rank_values)
+        if len(set(value_counts.values())) == 1 and (value_range==4):
+            return True
+        else:
+            #check straight with low Ace
+            if set(values) == set(["A", "2", "3", "4", "5"]):
+                return True
+            return False
+
+    def check_straight_flush(self):
+        if self.check_flush() and self.check_straight():
+            return True
+        return False
+
+    def __repr__(self):
+        ret = "|"
+        for c in self.cards:
+            ret += " "+str(c)+" |"
+        ret += "\n"
+        ret += "|"
+        for idx, c in enumerate(self.cards):
+            if c.numerical_value == 10:
+                ret += "  "+str(idx + 1)+"   |"
+            else:
+                ret += "  "+str(idx + 1)+"  |"
+        return ret
