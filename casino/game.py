@@ -1,16 +1,17 @@
 from cards import Deck, Hand, Card
+from collections import OrderedDict
+from playsound import playsound
 
-PAYTABLE = {
-    "royal_flush": 500,
-    "straight_flush": 50,
-    "four_of_a_kind": 25,
-    "full_house": 9,
-    "flush": 6,
-    "straight": 4,
-    "three_of_a_kind": 3,
-    "two_pair": 1,
-    "pair": 1
-}
+PAYTABLE = OrderedDict()
+PAYTABLE["royal_flush"] = 500
+PAYTABLE["straight_flush"] = 50
+PAYTABLE["four_of_a_kind"] = 25
+PAYTABLE["full_house"] = 9
+PAYTABLE["flush"] = 6
+PAYTABLE["straight"] = 4
+PAYTABLE["three_of_a_kind"] = 3
+PAYTABLE["two_pair"] = 1
+PAYTABLE["pair"] = 1
 
 class Game(object):
 
@@ -18,12 +19,19 @@ class Game(object):
         self.deck = deck
         self.credits = credits
 
+    def print_paytable(self):
+        for h, s in PAYTABLE.items():
+            print(h+"..."+str(s))
+
     def play(self):
+        print("9/6 JACKS OR BETTER VIDEO POKER")
+        self.print_paytable()
+        print("\n")
         while True:
             self.play_hand()
 
     def play_hand(self):
-        print("credits:" +str(self.credits))
+        print("credits: " +str(self.credits))
         bet = input("bet> ")
         try:
             bet = int(bet)
