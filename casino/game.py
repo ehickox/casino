@@ -1,13 +1,14 @@
 from cards import Deck, Hand, Card
 
 PAYTABLE = {
+    "royal_flush": 500,
     "straight_flush": 50,
     "four_of_a_kind": 25,
-    "full_house": 7,
-    "flush": 5,
+    "full_house": 9,
+    "flush": 6,
     "straight": 4,
     "three_of_a_kind": 3,
-    "two_pair": 2,
+    "two_pair": 1,
     "pair": 1
 }
 

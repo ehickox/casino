@@ -71,7 +71,9 @@ class Hand(object):
         self.cards = cards
 
     def get_highest_score(self):
-        if self.check_straight_flush():
+        if self.check_royal_flush():
+            return "royal_flush"
+        elif self.check_straight_flush():
             return "straight_flush"
         elif self.check_four_of_kind():
             return "four_of_a_kind"
@@ -162,6 +164,11 @@ class Hand(object):
         if self.check_flush() and self.check_straight():
             return True
         return False
+
+    def check_royal_flush(self):
+        if not self.check_straight_flush():
+            return False
+        return all(x in values for x in ["A", "K", "Q", "J", "10"])
 
     def __repr__(self):
         ret = "|"
