@@ -31,6 +31,7 @@ class Game(object):
             self.play_hand()
 
     def play_hand(self):
+        self.deck.reset()
         print("credits: " +str(self.credits))
         bet = input("bet> ")
         try:

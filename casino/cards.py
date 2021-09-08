@@ -60,6 +60,8 @@ class Deck(object):
         self.cards.append(Card("spade", 13, "king", f"{Fore.BLACK}♠{Style.RESET_ALL}"))
         self.cards.append(Card("spade", 14, "ace", f"{Fore.BLACK}♠{Style.RESET_ALL}"))
 
+        random.shuffle(self.cards)
+
     def get_hand(self, num_cards=5):
         hand = random.sample(self.cards, num_cards)
         self.cards = [c for c in self.cards if c not in hand]
