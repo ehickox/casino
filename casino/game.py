@@ -40,6 +40,9 @@ class Game(object):
         if bet > self.credits:
             print("error: must bet below "+str(self.credits))
             return
+        if bet < 0:
+            print("error: invalid bet")
+            return
         self.deck.reset()
         hand = self.deck.get_hand()
         hand.pretty_print()
@@ -63,6 +66,7 @@ class Game(object):
             else:
                 break
 
+        holds = set(holds)
         draw(self.deck, hand, holds)
         print(hand)
         score = hand.get_highest_score()
