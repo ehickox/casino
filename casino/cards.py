@@ -18,6 +18,7 @@ class Card(object):
         self.value = str(numerical_value)
         if numerical_value > 10:
             self.value = name[0].upper()
+        self.img_path = "assets/images/"+str(self.value)+self.suit[0].upper()+".png"
 
     def __repr__(self):
         return self.value + " " +self.symbol
@@ -26,6 +27,7 @@ class Deck(object):
 
     def __init__(self, cards=[]):
         self.cards = cards
+        self.reset()
 
     def reset(self):
         self.cards = []
@@ -177,7 +179,7 @@ class Hand(object):
 
     def pretty_print(self):
         for i, c in enumerate(self.cards):
-            playsound("click.mp3")
+            playsound("assets/audio/click.mp3")
             if i == 0:
                 sys.stdout.write("| "+str(c)+" |")
             else:

@@ -43,13 +43,12 @@ class Game(object):
         if bet < 0:
             print("error: invalid bet")
             return
-        self.deck.reset()
         hand = self.deck.get_hand()
         hand.pretty_print()
         score = hand.get_highest_score()
         if score:
             print(score)
-            playsound("pay.mp3")
+            playsound("assets/audio/pay.mp3")
         holds = []
         while True:
             raw = input("cards to hold> ")
@@ -75,9 +74,9 @@ class Game(object):
             self.credits -= bet
         else:
             if PAYTABLE[score] < 3:
-                playsound("pay2.mp3")
+                playsound("assets/audio/pay2.mp3")
             elif PAYTABLE[score] >= 3 and PAYTABLE[score] < 10:
-                playsound("pay3.mp3")
+                playsound("assets/audio/pay3.mp3")
             else:
                 playsount("pay4.mp3")
             winnings = PAYTABLE[score] * bet
@@ -96,5 +95,5 @@ def draw(deck, hand, holds):
     for idx, c in enumerate(new_cards):
         if c is None:
             new_cards[idx] = deck.get_hand(1).cards[0]
-            playsound("click.mp3")
+            playsound("assets/audio/click.mp3")
     hand.cards = new_cards
