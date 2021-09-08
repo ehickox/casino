@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QPushBut
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QPixmap
-
+from functools import partial
 from cards import Deck
 from game import Game
 
@@ -26,22 +26,72 @@ class GraphicalGame(QWidget):
 
         self.setLayout(self.grid)
 
-        self.grid.addWidget(QPushButton("HOLD"), 3, 0)
-        self.grid.addWidget(QPushButton("HOLD"), 3, 1)
-        self.grid.addWidget(QPushButton("HOLD"), 3, 2)
-        self.grid.addWidget(QPushButton("HOLD"), 3, 3)
-        self.grid.addWidget(QPushButton("HOLD"), 3, 4)
+        self.holdButton0 = QPushButton("HOLD")
+        self.holdButton0.clicked.connect(partial(self.onHoldButtonClick, idx=0))
+        self.holdButton1 = QPushButton("HOLD")
+        self.holdButton1.clicked.connect(partial(self.onHoldButtonClick, idx=1))
+        self.holdButton2 = QPushButton("HOLD")
+        self.holdButton2.clicked.connect(partial(self.onHoldButtonClick, idx=2))
+        self.holdButton3 = QPushButton("HOLD")
+        self.holdButton3.clicked.connect(partial(self.onHoldButtonClick, idx=3))
+        self.holdButton4 = QPushButton("HOLD")
+        self.holdButton4.clicked.connect(partial(self.onHoldButtonClick, idx=4))
 
-        self.grid.addWidget(QPushButton("BET 1"), 4, 0)
-        self.grid.addWidget(QLabel("Credits: "+str(self.game.credits)), 4, 1)
-        self.grid.addWidget(QLabel("Bet: "), 4, 3)
-        self.grid.addWidget(QPushButton("DEAL"), 4, 4)
+        self.grid.addWidget(self.holdButton0, 3, 0)
+        self.grid.addWidget(self.holdButton1, 3, 1)
+        self.grid.addWidget(self.holdButton2, 3, 2)
+        self.grid.addWidget(self.holdButton3, 3, 3)
+        self.grid.addWidget(self.holdButton4, 3, 4)
+
+        self.betUpButton = QPushButton("BET 1")
+        self.betUpButton.clicked.connect(partial(self.onBetUpButtonClick))
+        self.dealButton = QPushButton("DEAL")
+        self.dealButton.clicked.connect(partial(self.onDealButtonClick))
+
+        self.creditsLabel = QLabel("Credits: "+str(self.game.credits))
+        self.betLabel = QLabel("Bet: "+str(self.game.bet))
+
+        self.grid.addWidget(self.betUpButton, 4, 0)
+        self.grid.addWidget(self.creditsLabel, 4, 1)
+        self.grid.addWidget(self.betLabel, 4, 3)
+        self.grid.addWidget(self.dealButton, 4, 4)
 
 
         self.setLayout(self.grid)
         self.setWindowTitle("VIDEO POKER")
         self.setGeometry(50,50,200,200)
         self.show()
+
+    def onHoldButtonClick(self, checked, idx):
+        print(checked) #<- only used if the button is checkeable
+        print('clicked')
+        print("holdButton"+str(idx)+"Click")
+        if self.game.phase != "hold":
+            return
+
+    def onDealButtonClick(self, checked):
+        print("dealButtonClick")
+        if self.game.phase == "bet":
+            # show cards
+            self.game.change_phase("hold")
+        elif self.game.phase == "hold":
+            # show only new cards plus held cards
+            pass
+
+    def onBetUpButtonClick(self, checked):
+        print("betUpButtonClick")
+        if self.game.phase != "bet":
+            return
+        self.game.add_bet(1)
+        print(self.game.bet)
+        print(self.game.credits)
+        # refresh credits and bet label
+        self.creditsLabel.setText("Credits: "+str(self.game.credits))
+        self.betLabel.setText("Bet: "+str(self.game.bet))
+        self.creditsLabel.update()
+        self.betLabel.update()
+        self.update()
+
 
     def play_hand(self):
         self.game.deck.reset()

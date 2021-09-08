@@ -19,6 +19,22 @@ class Game(object):
     def __init__(self, deck=Deck(), credits=10):
         self.deck = deck
         self.credits = credits
+        self.bet = 0
+        self.phase = "bet"
+        self.hand = None
+
+    def change_phase(self, p: str):
+        self.phase = p
+
+    def add_bet(self, amt: int):
+        if amt > self.credits:
+            print("error: must bet below "+str(self.credits))
+            return
+        if amt < 0:
+            print("error: invalid bet")
+            return
+        self.credits -= amt
+        self.bet += amt
 
     def print_paytable(self):
         for h, s in PAYTABLE.items():
@@ -70,9 +86,9 @@ class Game(object):
         draw(self.deck, hand, holds)
         print(hand)
         score = hand.get_highest_score()
+        self.credits -= bet
         if not score:
             print("better luck next time!")
-            self.credits -= bet
         else:
             if PAYTABLE[score] < 3:
                 playsound("assets/audio/pay2.mp3")
@@ -83,7 +99,6 @@ class Game(object):
             winnings = PAYTABLE[score] * bet
             print(score+"! you win "+str(winnings)+" credits!")
             self.credits += winnings
-            self.credits -= bet
 
 
 def draw(deck: Deck, hand: Hand, holds: List):
