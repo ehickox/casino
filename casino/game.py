@@ -22,9 +22,14 @@ class Game(object):
         self.bet = 0
         self.phase = "bet"
         self.hand = None
+        self.hold_idxs = []
 
     def change_phase(self, p: str):
         self.phase = p
+        if p == "hold":
+            self.holds = []
+        elif p == "bet":
+            self.bet = 0
 
     def add_bet(self, amt: int):
         if amt > self.credits:
@@ -35,6 +40,12 @@ class Game(object):
             return
         self.credits -= amt
         self.bet += amt
+
+    def add_hold(self, idx: int):
+        if self.phase != "hold":
+            return
+        if idx not in self.holds:
+            self.holds.append(idx)
 
     def get_new_hand(self):
         if self.phase != "bet":
@@ -67,7 +78,8 @@ class Game(object):
         if bet < 0:
             print("error: invalid bet")
             return
-        hand = self.deck.get_hand()
+        self.get_new_hand()
+        hand = self.hand
         hand.pretty_print()
         score = hand.get_highest_score()
         if score:
@@ -88,8 +100,8 @@ class Game(object):
                 continue
             else:
                 break
-
-        draw(self.deck, hand, holds)
+        self.holds = []
+        self.draw(holds)
         print(hand)
         score = hand.get_highest_score()
         self.credits -= bet
@@ -107,16 +119,16 @@ class Game(object):
             self.credits += winnings
 
 
-def draw(deck: Deck, hand: Hand, holds: List):
-    holds = set(holds)
-    new_cards = hand.cards
-    for idx, c in enumerate(hand.cards):
-        if idx in holds:
-            new_cards[idx] = c
-        else:
-            new_cards[idx] = None
-    for idx, c in enumerate(new_cards):
-        if c is None:
-            new_cards[idx] = deck.get_hand(1).cards[0]
-            playsound("assets/audio/click.mp3")
-    hand.cards = new_cards
+    def draw(self, holds: List[int]):
+        holds = set(holds)
+        new_cards = self.hand.cards
+        for idx, c in enumerate(self.hand.cards):
+            if idx in holds:
+                new_cards[idx] = c
+            else:
+                new_cards[idx] = None
+        for idx, c in enumerate(new_cards):
+            if c is None:
+                new_cards[idx] = self.deck.get_hand(1).cards[0]
+                playsound("assets/audio/click.mp3")
+        self.hand.cards = new_cards

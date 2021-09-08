@@ -16,6 +16,7 @@ class GraphicalGame(QWidget):
 
         self.game = Game()
         self.cardLabels = []
+        self.holdButtons = []
 
         for i in range(0, 5):
             pixmap = QPixmap('assets/images/red_back.png')
@@ -29,22 +30,12 @@ class GraphicalGame(QWidget):
 
         self.setLayout(self.grid)
 
-        self.holdButton0 = QPushButton("HOLD")
-        self.holdButton0.clicked.connect(partial(self.onHoldButtonClick, idx=0))
-        self.holdButton1 = QPushButton("HOLD")
-        self.holdButton1.clicked.connect(partial(self.onHoldButtonClick, idx=1))
-        self.holdButton2 = QPushButton("HOLD")
-        self.holdButton2.clicked.connect(partial(self.onHoldButtonClick, idx=2))
-        self.holdButton3 = QPushButton("HOLD")
-        self.holdButton3.clicked.connect(partial(self.onHoldButtonClick, idx=3))
-        self.holdButton4 = QPushButton("HOLD")
-        self.holdButton4.clicked.connect(partial(self.onHoldButtonClick, idx=4))
-
-        self.grid.addWidget(self.holdButton0, 3, 0)
-        self.grid.addWidget(self.holdButton1, 3, 1)
-        self.grid.addWidget(self.holdButton2, 3, 2)
-        self.grid.addWidget(self.holdButton3, 3, 3)
-        self.grid.addWidget(self.holdButton4, 3, 4)
+        for i in range(0, 5):
+            holdButton = QPushButton("HOLD")
+            holdButton.setCheckable(True)
+            holdButton.clicked.connect(partial(self.onHoldButtonClick, idx=i))
+            self.holdButtons.append(holdButton)
+            self.grid.addWidget(holdButton, 3, i)
 
         self.betUpButton = QPushButton("BET 1")
         self.betUpButton.clicked.connect(partial(self.onBetUpButtonClick))
@@ -66,14 +57,18 @@ class GraphicalGame(QWidget):
         self.show()
 
     def onHoldButtonClick(self, checked, idx):
-        print(checked) #<- only used if the button is checkeable
+        print(checked) #<- only used if the button is checkable
         print('clicked')
         print("holdButton"+str(idx)+"Click")
         if self.game.phase != "hold":
             return
+        self.game.add_hold(idx)
+        print(self.game.holds)
 
     def onDealButtonClick(self, checked):
         print("dealButtonClick")
+        for b in self.holdButtons:
+            b.setChecked(False)
         if self.game.phase == "bet" and self.game.bet > 0:
             self.game.get_new_hand()
             for idx, l in enumerate(self.cardLabels):
@@ -84,13 +79,18 @@ class GraphicalGame(QWidget):
                 l.setPixmap(im)
                 l.update()
                 time.sleep(0.08)
-
             self.game.change_phase("hold")
         elif self.game.phase == "hold":
             # show only new cards plus held cards
+            # show score and update credits
+            self.game.change_phase("bet")
             pass
 
-
+        # refresh credits and bet label
+        self.creditsLabel.setText("Credits: "+str(self.game.credits))
+        self.betLabel.setText("Bet: "+str(self.game.bet))
+        self.creditsLabel.update()
+        self.betLabel.update()
 
     def onBetUpButtonClick(self, checked):
         print("betUpButtonClick")
@@ -107,16 +107,8 @@ class GraphicalGame(QWidget):
         self.update()
 
 
-    def play_hand(self):
-        self.game.deck.reset()
-
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = GraphicalGame()
-    #while True:
-    #    ex.play_hand()
-    #    app.processEvents()
-
     sys.exit(app.exec_())
