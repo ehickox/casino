@@ -32,7 +32,7 @@ class Deck(object):
         for i in range(2, 11):
             self.cards.append(Card("heart", i, str(i), f"{Fore.RED}♥{Style.RESET_ALL}"))
 
-        self.cards.append(Card("heart", 11, "jack", f"{Fore.RED}♥ {Style.RESET_ALL}"))
+        self.cards.append(Card("heart", 11, "jack", f"{Fore.RED}♥{Style.RESET_ALL}"))
         self.cards.append(Card("heart", 12, "queen", f"{Fore.RED}♥{Style.RESET_ALL}"))
         self.cards.append(Card("heart", 13, "king", f"{Fore.RED}♥{Style.RESET_ALL}"))
         self.cards.append(Card("heart", 14, "ace", f"{Fore.RED}♥{Style.RESET_ALL}"))
