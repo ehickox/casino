@@ -1,4 +1,4 @@
-import sys
+import sys, time
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QPushButton, QMainWindow
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
@@ -6,6 +6,7 @@ from PyQt5.QtGui import QPixmap
 from functools import partial
 from cards import Deck
 from game import Game
+from playsound import playsound
 
 class GraphicalGame(QWidget):
 
@@ -14,6 +15,7 @@ class GraphicalGame(QWidget):
         self.grid = QGridLayout()
 
         self.game = Game()
+        self.cardLabels = []
 
         for i in range(0, 5):
             pixmap = QPixmap('assets/images/red_back.png')
@@ -21,6 +23,7 @@ class GraphicalGame(QWidget):
             im = pixmap.scaledToHeight(240)
             label = QLabel()
             label.setPixmap(im)
+            self.cardLabels.append(label)
 
             self.grid.addWidget(label,1,i)
 
@@ -71,12 +74,23 @@ class GraphicalGame(QWidget):
 
     def onDealButtonClick(self, checked):
         print("dealButtonClick")
-        if self.game.phase == "bet":
-            # show cards
+        if self.game.phase == "bet" and self.game.bet > 0:
+            self.game.get_new_hand()
+            for idx, l in enumerate(self.cardLabels):
+                playsound("assets/audio/click.mp3")
+                pixmap = QPixmap(self.game.hand.cards[idx].img_path)
+                #self.im = pixmap.scaledToWidth(120)
+                im = pixmap.scaledToHeight(240)
+                l.setPixmap(im)
+                l.update()
+                time.sleep(0.08)
+
             self.game.change_phase("hold")
         elif self.game.phase == "hold":
             # show only new cards plus held cards
             pass
+
+
 
     def onBetUpButtonClick(self, checked):
         print("betUpButtonClick")
@@ -101,7 +115,8 @@ class GraphicalGame(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = GraphicalGame()
-    while True:
-        ex.play_hand()
-        app.processEvents()
+    #while True:
+    #    ex.play_hand()
+    #    app.processEvents()
+
     sys.exit(app.exec_())

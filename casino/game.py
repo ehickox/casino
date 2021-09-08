@@ -36,6 +36,12 @@ class Game(object):
         self.credits -= amt
         self.bet += amt
 
+    def get_new_hand(self):
+        if self.phase != "bet":
+            return
+        self.hand = self.deck.get_hand()
+        self.phase = "hold"
+
     def print_paytable(self):
         for h, s in PAYTABLE.items():
             print(h+"..."+str(s))
