@@ -41,19 +41,29 @@ class Game(object):
             print("error: must bet below "+str(self.credits))
             exit(0)
         self.deck.reset()
-        h = self.deck.get_hand()
-        print(h)
+        hand = self.deck.get_hand()
+        for i in hand.cards:
+            playsound("click.mp3")
+        print(hand)
+        score = hand.get_highest_score()
+        if score:
+            print(score)
+            playsound("pay.mp3")
         holds = []
         raw = input("cards to hold> ")
         for i in raw:
             holds.append(int(i) - 1)
-        draw(self.deck, h, holds)
-        print(h)
-        score = h.get_highest_score()
+        draw(self.deck, hand, holds)
+        for i in holds:
+            playsound("click.mp3")
+
+        print(hand)
+        score = hand.get_highest_score()
         if not score:
             print("better luck next time!")
             self.credits -= bet
         else:
+            playsound("pay2.mp3")
             winnings = PAYTABLE[score] * bet
             print(score+"! you win "+str(winnings)+" credits!")
             self.credits += winnings
