@@ -1,6 +1,7 @@
 import random
 import time
 import sys
+import requests
 from collections import defaultdict
 from playsound import playsound
 from colorama import Style
@@ -66,6 +67,12 @@ class Deck(object):
         hand = random.sample(self.cards, num_cards)
         self.cards = [c for c in self.cards if c not in hand]
         return Hand(hand)
+
+    def shuffle(self):
+        beacon_resp = requests.get("https://beacon.nist.gov/beacon/2.0/pulse/last")
+        rand_seed = beacon_resp.json()["pulse"]["outputValue"]
+        random.seed(rand_seed)
+        random.shuffle(self.cards)
 
     def __repr__(self):
         ret = ""

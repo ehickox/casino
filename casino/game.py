@@ -1,6 +1,7 @@
 from cards import Deck, Hand, Card
 from collections import OrderedDict
 from playsound import playsound
+from typing import List
 
 PAYTABLE = OrderedDict()
 PAYTABLE["royal_flush"] = 500
@@ -66,7 +67,6 @@ class Game(object):
             else:
                 break
 
-        holds = set(holds)
         draw(self.deck, hand, holds)
         print(hand)
         score = hand.get_highest_score()
@@ -86,7 +86,8 @@ class Game(object):
             self.credits -= bet
 
 
-def draw(deck, hand, holds):
+def draw(deck: Deck, hand: Hand, holds: List):
+    holds = set(holds)
     new_cards = hand.cards
     for idx, c in enumerate(hand.cards):
         if idx in holds:

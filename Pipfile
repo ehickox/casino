@@ -8,6 +8,7 @@ playsound = "*"
 pygobject = "*"
 colorama = "*"
 pyqt5 = "*"
+requests = "*"
 
 [dev-packages]
 
