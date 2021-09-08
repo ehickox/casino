@@ -3,6 +3,8 @@ import time
 import sys
 from collections import defaultdict
 from playsound import playsound
+from colorama import Style
+from colorama import Fore
 
 card_order_dict = {"2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10,"J":11, "Q":12, "K":13, "A":14}
 
@@ -28,33 +30,33 @@ class Deck(object):
     def reset(self):
         self.cards = []
         for i in range(2, 11):
-            self.cards.append(Card("heart", i, str(i), "♥"))
+            self.cards.append(Card("heart", i, str(i), f"{Fore.RED}♥{Style.RESET_ALL}"))
 
-        self.cards.append(Card("heart", 11, "jack", "♥"))
-        self.cards.append(Card("heart", 12, "queen", "♥"))
-        self.cards.append(Card("heart", 13, "king", "♥"))
-        self.cards.append(Card("heart", 14, "ace", "♥"))
+        self.cards.append(Card("heart", 11, "jack", f"{Fore.RED}♥ {Style.RESET_ALL}"))
+        self.cards.append(Card("heart", 12, "queen", f"{Fore.RED}♥{Style.RESET_ALL}"))
+        self.cards.append(Card("heart", 13, "king", f"{Fore.RED}♥{Style.RESET_ALL}"))
+        self.cards.append(Card("heart", 14, "ace", f"{Fore.RED}♥{Style.RESET_ALL}"))
         for i in range(2, 11):
-            self.cards.append(Card("diamond", i, str(i), "♦"))
+            self.cards.append(Card("diamond", i, str(i), f"{Fore.RED}♦{Style.RESET_ALL}"))
 
-        self.cards.append(Card("diamond", 11, "jack", "♦"))
-        self.cards.append(Card("diamond", 12, "queen", "♦"))
-        self.cards.append(Card("diamond", 13, "king", "♦"))
-        self.cards.append(Card("diamond", 14, "ace", "♦"))
+        self.cards.append(Card("diamond", 11, "jack", f"{Fore.RED}♦{Style.RESET_ALL}"))
+        self.cards.append(Card("diamond", 12, "queen", f"{Fore.RED}♦{Style.RESET_ALL}"))
+        self.cards.append(Card("diamond", 13, "king", f"{Fore.RED}♦{Style.RESET_ALL}"))
+        self.cards.append(Card("diamond", 14, "ace", f"{Fore.RED}♦{Style.RESET_ALL}"))
         for i in range(2, 11):
-            self.cards.append(Card("club", i, str(i), "♣"))
+            self.cards.append(Card("club", i, str(i), f"{Fore.BLACK}♣{Style.RESET_ALL}"))
 
-        self.cards.append(Card("club", 11, "jack", "♣"))
-        self.cards.append(Card("club", 12, "queen", "♣"))
-        self.cards.append(Card("club", 13, "king", "♣"))
-        self.cards.append(Card("club", 14, "ace", "♣"))
+        self.cards.append(Card("club", 11, "jack", f"{Fore.BLACK}♣{Style.RESET_ALL}"))
+        self.cards.append(Card("club", 12, "queen", f"{Fore.BLACK}♣{Style.RESET_ALL}"))
+        self.cards.append(Card("club", 13, "king", f"{Fore.BLACK}♣{Style.RESET_ALL}"))
+        self.cards.append(Card("club", 14, "ace", f"{Fore.BLACK}♣{Style.RESET_ALL}"))
         for i in range(2, 11):
-            self.cards.append(Card("spade", i, str(i), "♠"))
+            self.cards.append(Card("spade", i, str(i), f"{Fore.BLACK}♠{Style.RESET_ALL}"))
 
-        self.cards.append(Card("spade", 11, "jack", "♠"))
-        self.cards.append(Card("spade", 12, "queen", "♠"))
-        self.cards.append(Card("spade", 13, "king", "♠"))
-        self.cards.append(Card("spade", 14, "ace", "♠"))
+        self.cards.append(Card("spade", 11, "jack", f"{Fore.BLACK}♠{Style.RESET_ALL}"))
+        self.cards.append(Card("spade", 12, "queen", f"{Fore.BLACK}♠{Style.RESET_ALL}"))
+        self.cards.append(Card("spade", 13, "king", f"{Fore.BLACK}♠{Style.RESET_ALL}"))
+        self.cards.append(Card("spade", 14, "ace", f"{Fore.BLACK}♠{Style.RESET_ALL}"))
 
     def get_hand(self, num_cards=5):
         hand = random.sample(self.cards, num_cards)
