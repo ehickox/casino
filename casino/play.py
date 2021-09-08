@@ -5,4 +5,4 @@ from colorama import init
 if __name__ == '__main__':
     init()
     g = Game()
-    g.play()
+    g.play_term()

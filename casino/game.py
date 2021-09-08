@@ -24,14 +24,14 @@ class Game(object):
         for h, s in PAYTABLE.items():
             print(h+"..."+str(s))
 
-    def play(self):
+    def play_term(self):
         print("9/6 JACKS OR BETTER VIDEO POKER")
         self.print_paytable()
         print("\n")
         while True:
-            self.play_hand()
+            self.play_hand_term()
 
-    def play_hand(self):
+    def play_hand_term(self):
         self.deck.reset()
         print("credits: " +str(self.credits))
         bet = input("bet> ")
