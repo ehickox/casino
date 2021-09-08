@@ -36,34 +36,46 @@ class Game(object):
         try:
             bet = int(bet)
         except Exception as e:
-            exit(1)
+            return
         if bet > self.credits:
             print("error: must bet below "+str(self.credits))
-            exit(0)
+            return
         self.deck.reset()
         hand = self.deck.get_hand()
-        for i in hand.cards:
-            playsound("click.mp3")
-        print(hand)
+        hand.pretty_print()
         score = hand.get_highest_score()
         if score:
             print(score)
             playsound("pay.mp3")
         holds = []
-        raw = input("cards to hold> ")
-        for i in raw:
-            holds.append(int(i) - 1)
-        draw(self.deck, hand, holds)
-        for i in holds:
-            playsound("click.mp3")
+        while True:
+            raw = input("cards to hold> ")
+            try:
+                for i in raw:
+                    ho = int(i)
+                    if ho >=1 and ho <= 5:
+                        holds.append(ho - 1)
+                    else:
+                        raise Exception("error: out of range")
+            except Exception as e:
+                holds = []
+                continue
+            else:
+                break
 
+        draw(self.deck, hand, holds)
         print(hand)
         score = hand.get_highest_score()
         if not score:
             print("better luck next time!")
             self.credits -= bet
         else:
-            playsound("pay2.mp3")
+            if PAYTABLE[score] < 3:
+                playsound("pay2.mp3")
+            elif PAYTABLE[score] >= 3 and PAYTABLE[score] < 10:
+                playsound("pay3.mp3")
+            else:
+                playsount("pay4.mp3")
             winnings = PAYTABLE[score] * bet
             print(score+"! you win "+str(winnings)+" credits!")
             self.credits += winnings
@@ -80,4 +92,5 @@ def draw(deck, hand, holds):
     for idx, c in enumerate(new_cards):
         if c is None:
             new_cards[idx] = deck.get_hand(1).cards[0]
+            playsound("click.mp3")
     hand.cards = new_cards

@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 playsound = "*"
+pygobject = "*"
 
 [dev-packages]
 
+[requires]
+python_version = "3.8"

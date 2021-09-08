@@ -1,5 +1,8 @@
 import random
+import time
+import sys
 from collections import defaultdict
+from playsound import playsound
 
 card_order_dict = {"2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10,"J":11, "Q":12, "K":13, "A":14}
 
@@ -169,6 +172,27 @@ class Hand(object):
         if not self.check_straight_flush():
             return False
         return all(x in values for x in ["A", "K", "Q", "J", "10"])
+
+    def pretty_print(self):
+        for i, c in enumerate(self.cards):
+            playsound("click.mp3")
+            if i == 0:
+                sys.stdout.write("| "+str(c)+" |")
+            else:
+                sys.stdout.write(" "+str(c)+" |")
+            sys.stdout.flush()
+            time.sleep(0.05)
+
+        sys.stdout.write("\n")
+        sys.stdout.flush()
+
+        ret = "|"
+        for idx, c in enumerate(self.cards):
+            if c.numerical_value == 10:
+                ret += "  "+str(idx + 1)+"   |"
+            else:
+                ret += "  "+str(idx + 1)+"  |"
+        print(ret)
 
     def __repr__(self):
         ret = "|"
