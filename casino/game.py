@@ -51,7 +51,8 @@ class Game(object):
         if self.phase != "bet":
             return
         self.hand = self.deck.get_hand()
-        self.phase = "hold"
+        self.change_phase("hold")
+        return self.hand
 
     def print_paytable(self):
         for h, s in PAYTABLE.items():
@@ -66,6 +67,7 @@ class Game(object):
 
     def play_hand_term(self):
         self.deck.reset()
+        self.change_phase("bet")
         print("credits: " +str(self.credits))
         bet = input("bet> ")
         try:
@@ -79,9 +81,8 @@ class Game(object):
             print("error: invalid bet")
             return
         self.get_new_hand()
-        hand = self.hand
-        hand.pretty_print()
-        score = hand.get_highest_score()
+        self.hand.pretty_print()
+        score = self.hand.get_highest_score()
         if score:
             print(score)
             playsound("assets/audio/pay.mp3")
@@ -102,8 +103,8 @@ class Game(object):
                 break
         self.holds = []
         self.draw(holds)
-        print(hand)
-        score = hand.get_highest_score()
+        print(self.hand)
+        score = self.hand.get_highest_score()
         self.credits -= bet
         if not score:
             print("better luck next time!")
