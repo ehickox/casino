@@ -5,7 +5,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QPixmap
 from functools import partial
 from cards import Deck
-from game import Game
+from game import Game, PAYTABLE
 from playsound import playsound
 
 class GraphicalGame(QWidget):
@@ -29,6 +29,15 @@ class GraphicalGame(QWidget):
             self.grid.addWidget(label,1,i)
 
         self.setLayout(self.grid)
+
+        paytable_text = "9/6 JACKS OR BETTER VIDEO POKER\n"
+        paytable_text += self.game.get_paytable_text()
+
+        self.payTableLable = QLabel(paytable_text)
+        self.grid.addWidget(self.payTableLable, 0, 0, 1, 2)
+
+        self.scoreLabel = QLabel("BET 10 CREDITS")
+        self.grid.addWidget(self.scoreLabel, 0, 3, 1, 2)
 
         for i in range(0, 5):
             holdButton = QPushButton("HOLD")
@@ -73,6 +82,7 @@ class GraphicalGame(QWidget):
             b.setChecked(False)
         if self.game.phase == "bet" and self.game.bet > 0:
             self.game.get_new_hand()
+            score = self.game.hand.get_highest_score()
             for idx, l in enumerate(self.cardLabels):
                 playsound("assets/audio/click.mp3")
                 pixmap = QPixmap(self.game.hand.cards[idx].img_path)
@@ -81,15 +91,16 @@ class GraphicalGame(QWidget):
                 l.setPixmap(im)
                 l.update()
                 time.sleep(0.08)
+            if score:
+                playsound("assets/audio/pay.mp3")
             self.game.change_phase("hold")
         elif self.game.phase == "hold":
             # show only new cards plus held cards
             # show score and update credits
             self.game.draw(self.game.hold_idxs)
-            print(self.game.hold_idxs)
+            score = self.game.hand.get_highest_score()
             for idx, l in enumerate(self.cardLabels):
                 if idx not in self.game.hold_idxs:
-                    print(self.game.hand.cards)
                     playsound("assets/audio/click.mp3")
                     pixmap = QPixmap(self.game.hand.cards[idx].img_path)
                     #self.im = pixmap.scaledToWidth(120)
@@ -97,7 +108,21 @@ class GraphicalGame(QWidget):
                     l.setPixmap(im)
                     l.update()
                     time.sleep(0.08)
+            if score:
+                self.scoreLabel.setText(score.upper().replace("_", " "))
+                self.scoreLabel.update()
+                if PAYTABLE[score] < 3:
+                    playsound("assets/audio/pay2.mp3")
+                elif PAYTABLE[score] >= 3 and PAYTABLE[score] < 10:
+                    playsound("assets/audio/pay3.mp3")
+                else:
+                    playsound("pay4.mp3")
+
+                winnings = PAYTABLE[score] * self.game.bet
+                print(score+"! you win "+str(winnings)+" credits!")
+                self.game.credits += winnings
             self.game.change_phase("bet")
+            self.game.deck.reset()
 
         # refresh credits and bet label
         self.creditsLabel.setText("Credits: "+str(self.game.credits))

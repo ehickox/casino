@@ -60,6 +60,13 @@ class Game(object):
         self.change_phase("hold")
         return self.hand
 
+    def get_paytable_text(self) -> str:
+        ret = ""
+        for h, s in PAYTABLE.items():
+            ret += h+"..."+str(s)
+            ret += "\n"
+        return ret
+
     def print_paytable(self):
         for h, s in PAYTABLE.items():
             print(h+"..."+str(s))
@@ -120,7 +127,7 @@ class Game(object):
             elif PAYTABLE[score] >= 3 and PAYTABLE[score] < 10:
                 playsound("assets/audio/pay3.mp3")
             else:
-                playsount("pay4.mp3")
+                playsound("assets/pay4.mp3")
             winnings = PAYTABLE[score] * bet
             print(score+"! you win "+str(winnings)+" credits!")
             self.credits += winnings
