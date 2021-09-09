@@ -1,2 +1,7 @@
 casino/__pycache__/
 casino/__pycache__/**
+
+casino/build/**
+casino/build/**
+casino/dist/**
+casino/dist/**

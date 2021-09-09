@@ -9,6 +9,7 @@ pygobject = "*"
 colorama = "*"
 pyqt5 = "*"
 requests = "*"
+pyinstaller = "*"
 
 [dev-packages]
 
