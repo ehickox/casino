@@ -62,8 +62,10 @@ class GraphicalGame(QWidget):
         print("holdButton"+str(idx)+"Click")
         if self.game.phase != "hold":
             return
-        self.game.add_hold(idx)
-        print(self.game.holds)
+        if checked:
+            self.game.add_hold(idx)
+        else:
+            self.game.remove_hold(idx)
 
     def onDealButtonClick(self, checked):
         print("dealButtonClick")
@@ -83,8 +85,19 @@ class GraphicalGame(QWidget):
         elif self.game.phase == "hold":
             # show only new cards plus held cards
             # show score and update credits
+            self.game.draw(self.game.hold_idxs)
+            print(self.game.hold_idxs)
+            for idx, l in enumerate(self.cardLabels):
+                if idx not in self.game.hold_idxs:
+                    print(self.game.hand.cards)
+                    playsound("assets/audio/click.mp3")
+                    pixmap = QPixmap(self.game.hand.cards[idx].img_path)
+                    #self.im = pixmap.scaledToWidth(120)
+                    im = pixmap.scaledToHeight(240)
+                    l.setPixmap(im)
+                    l.update()
+                    time.sleep(0.08)
             self.game.change_phase("bet")
-            pass
 
         # refresh credits and bet label
         self.creditsLabel.setText("Credits: "+str(self.game.credits))

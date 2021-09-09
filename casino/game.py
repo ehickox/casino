@@ -27,7 +27,7 @@ class Game(object):
     def change_phase(self, p: str):
         self.phase = p
         if p == "hold":
-            self.holds = []
+            self.hold_idxs = []
         elif p == "bet":
             self.bet = 0
 
@@ -44,8 +44,14 @@ class Game(object):
     def add_hold(self, idx: int):
         if self.phase != "hold":
             return
-        if idx not in self.holds:
-            self.holds.append(idx)
+        if idx not in self.hold_idxs:
+            self.hold_idxs.append(idx)
+
+    def remove_hold(self, idx: int):
+        if self.phase != "hold":
+            return
+        if idx in self.hold_idxs:
+            self.hold_idxs.remove(idx)
 
     def get_new_hand(self):
         if self.phase != "bet":
@@ -102,7 +108,7 @@ class Game(object):
             else:
                 break
         self.holds = []
-        self.draw(holds)
+        self.draw(holds, sound=True)
         print(self.hand)
         score = self.hand.get_highest_score()
         self.credits -= bet
@@ -120,7 +126,7 @@ class Game(object):
             self.credits += winnings
 
 
-    def draw(self, holds: List[int]):
+    def draw(self, holds: List[int], sound=False):
         holds = set(holds)
         new_cards = self.hand.cards
         for idx, c in enumerate(self.hand.cards):
@@ -131,5 +137,6 @@ class Game(object):
         for idx, c in enumerate(new_cards):
             if c is None:
                 new_cards[idx] = self.deck.get_hand(1).cards[0]
-                playsound("assets/audio/click.mp3")
+                if sound:
+                    playsound("assets/audio/click.mp3")
         self.hand.cards = new_cards
