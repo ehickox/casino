@@ -56,10 +56,12 @@ class GraphicalGame(QWidget):
         self.creditsLabel = QLabel("Credits: "+str(self.game.credits))
         self.betLabel = QLabel("Bet: "+str(self.game.bet))
 
-        self.grid.addWidget(self.betUpButton, 4, 0)
-        self.grid.addWidget(self.creditsLabel, 4, 1)
-        self.grid.addWidget(self.betLabel, 4, 3)
-        self.grid.addWidget(self.dealButton, 4, 4)
+        self.grid.addWidget(QLabel(""), 4, 0)
+
+        self.grid.addWidget(self.betUpButton, 5, 0)
+        self.grid.addWidget(self.creditsLabel, 5, 1)
+        self.grid.addWidget(self.betLabel, 5, 3)
+        self.grid.addWidget(self.dealButton, 5, 4)
 
 
         self.setLayout(self.grid)
