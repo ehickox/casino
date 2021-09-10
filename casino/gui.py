@@ -2,6 +2,7 @@ import sys, time
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QPushButton, QMainWindow
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
+from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from functools import partial
 from cards import Deck
@@ -13,6 +14,7 @@ class GraphicalGame(QWidget):
     def __init__(self):
         super().__init__()
         self.grid = QGridLayout()
+        self.setLayout(self.grid)
 
         self.game = Game()
         self.cardLabels = []
@@ -21,14 +23,14 @@ class GraphicalGame(QWidget):
         for i in range(0, 5):
             pixmap = QPixmap('assets/images/red_back.png')
             #self.im = pixmap.scaledToWidth(120)
-            im = pixmap.scaledToHeight(240)
+            # im = pixmap.scaledToHeight(240)
+            im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
             label = QLabel()
             label.setPixmap(im)
             self.cardLabels.append(label)
 
             self.grid.addWidget(label,1,i)
 
-        self.setLayout(self.grid)
 
         paytable_text = "9/6 JACKS OR BETTER VIDEO POKER\n"
         paytable_text += self.game.get_paytable_text()
@@ -64,6 +66,7 @@ class GraphicalGame(QWidget):
         self.setWindowTitle("VIDEO POKER")
         self.setGeometry(50,50,200,200)
         self.show()
+        #self.showFullScreen()
 
     def onHoldButtonClick(self, checked, idx):
         print(checked) #<- only used if the button is checkable
@@ -81,20 +84,26 @@ class GraphicalGame(QWidget):
         for b in self.holdButtons:
             b.setChecked(False)
         if self.game.phase == "bet" and self.game.bet > 0:
+            self.game.deck.reset()
+            print(len(self.game.deck.cards))
             self.game.get_new_hand()
             score = self.game.hand.get_highest_score()
             for idx, l in enumerate(self.cardLabels):
                 playsound("assets/audio/click.mp3")
                 pixmap = QPixmap(self.game.hand.cards[idx].img_path)
                 #self.im = pixmap.scaledToWidth(120)
-                im = pixmap.scaledToHeight(240)
+                # im = pixmap.scaledToHeight(240)
+                im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
                 l.setPixmap(im)
                 l.update()
                 time.sleep(0.08)
             if score:
+                self.scoreLabel.setText(score.replace("_", " ").upper())
+                self.scoreLabel.update()
                 playsound("assets/audio/pay.mp3")
             self.game.change_phase("hold")
         elif self.game.phase == "hold":
+            print(len(self.game.deck.cards))
             # show only new cards plus held cards
             # show score and update credits
             self.game.draw(self.game.hold_idxs)
@@ -104,7 +113,8 @@ class GraphicalGame(QWidget):
                     playsound("assets/audio/click.mp3")
                     pixmap = QPixmap(self.game.hand.cards[idx].img_path)
                     #self.im = pixmap.scaledToWidth(120)
-                    im = pixmap.scaledToHeight(240)
+                    # im = pixmap.scaledToHeight(240)
+                    im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
                     l.setPixmap(im)
                     l.update()
                     time.sleep(0.08)
@@ -122,7 +132,6 @@ class GraphicalGame(QWidget):
                 print(score+"! you win "+str(winnings)+" credits!")
                 self.game.credits += winnings
             self.game.change_phase("bet")
-            self.game.deck.reset()
 
         # refresh credits and bet label
         self.creditsLabel.setText("Credits: "+str(self.game.credits))
@@ -134,6 +143,18 @@ class GraphicalGame(QWidget):
         print("betUpButtonClick")
         if self.game.phase != "bet":
             return
+
+        if self.game.bet == 0 and self.game.credits > 0:
+            self.scoreLabel.setText("")
+            self.scoreLabel.update()
+            # new game so make the cards face back
+            for idx, l in enumerate(self.cardLabels):
+                pixmap = QPixmap('assets/images/red_back.png')
+                #self.im = pixmap.scaledToWidth(120)
+                # im = pixmap.scaledToHeight(240)
+                im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
+                l.setPixmap(im)
+                l.update()
         self.game.add_bet(1)
         print(self.game.bet)
         print(self.game.credits)

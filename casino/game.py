@@ -63,7 +63,7 @@ class Game(object):
     def get_paytable_text(self) -> str:
         ret = ""
         for h, s in PAYTABLE.items():
-            ret += h+"..."+str(s)
+            ret += h.replace("_", " ").upper()+"..."+str(s)
             ret += "\n"
         return ret
 
