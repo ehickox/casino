@@ -127,7 +127,7 @@ class Game(object):
             elif PAYTABLE[score] >= 3 and PAYTABLE[score] < 10:
                 playsound("assets/audio/pay3.mp3")
             else:
-                playsound("assets/pay4.mp3")
+                playsound("assets/audio/pay4.mp3")
             winnings = PAYTABLE[score] * bet
             print(score+"! you win "+str(winnings)+" credits!")
             self.credits += winnings

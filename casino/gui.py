@@ -116,7 +116,7 @@ class GraphicalGame(QWidget):
                 elif PAYTABLE[score] >= 3 and PAYTABLE[score] < 10:
                     playsound("assets/audio/pay3.mp3")
                 else:
-                    playsound("pay4.mp3")
+                    playsound("assets/audio/pay4.mp3")
 
                 winnings = PAYTABLE[score] * self.game.bet
                 print(score+"! you win "+str(winnings)+" credits!")
