@@ -135,7 +135,7 @@ class GraphicalGame(QWidget):
                 im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
                 l.setPixmap(im)
                 playsound("assets/audio/click.mp3")
-                time.sleep(0.4)
+                time.sleep(0.2)
                 l.update()
             if score:
                 self.scoreLabel.setText(score.replace("_", " ").upper())
@@ -156,7 +156,7 @@ class GraphicalGame(QWidget):
                     im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
                     l.setPixmap(im)
                     playsound("assets/audio/click.mp3")
-                    time.sleep(0.4)
+                    time.sleep(0.2)
                     l.update()
             if score:
                 self.scoreLabel.setText(score.upper().replace("_", " "))
