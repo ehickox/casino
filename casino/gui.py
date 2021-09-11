@@ -48,8 +48,11 @@ class GraphicalGame(QWidget):
 
         for i in range(0, 5):
             holdButton = QPushButton("HOLD")
+            holdButton.setStyleSheet("background-color: #ffe73c;"
+                                    "color: black;")
             font = holdButton.font()
             font.setPointSize(16)
+            font.setBold(True)
             holdButton.setFont(font)
             holdButtonPolicy = holdButton.sizePolicy()
             holdButtonPolicy.setHorizontalPolicy(QSizePolicy.MinimumExpanding)
@@ -60,13 +63,20 @@ class GraphicalGame(QWidget):
             self.grid.addWidget(holdButton, 3, i, QtCore.Qt.AlignVCenter)
 
         self.betUpButton = QPushButton("BET 1")
+        self.betUpButton.setStyleSheet("background-color: #ffe73c;"
+                                    "color: black;")
         font = self.betUpButton.font()
         font.setPointSize(16)
+        font.setBold(True)
         self.betUpButton.setFont(font)
         self.betUpButton.clicked.connect(partial(self.onBetUpButtonClick))
+
         self.dealButton = QPushButton("DEAL")
+        self.dealButton.setStyleSheet("background-color: #ffe73c;"
+                                    "color: black;")
         font = self.dealButton.font()
         font.setPointSize(16)
+        font.setBold(True)
         self.dealButton.setFont(font)
         self.dealButton.clicked.connect(partial(self.onDealButtonClick))
 
@@ -90,6 +100,10 @@ class GraphicalGame(QWidget):
 
         self.setLayout(self.grid)
         self.setWindowTitle("VIDEO POKER")
+        self.setStyleSheet("color: #ffe73c;"
+                        "background-color: #0000a0;"
+                        "selection-color: #ffe73c;"
+                        "selection-background-color: #0000a0;")
         #self.setGeometry(50,50,200,200)
         self.show()
         #self.showFullScreen()
