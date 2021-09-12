@@ -56,7 +56,7 @@ class GraphicalGame(QWidget):
                              "}"
                              "QPushButton::checked"
                              "{"
-                             "background-color : gray;"
+                             "background-color : red;"
                              "}"
                              )
             font = holdButton.font()
@@ -89,11 +89,11 @@ class GraphicalGame(QWidget):
         self.dealButton.setFont(font)
         self.dealButton.clicked.connect(partial(self.onDealButtonClick))
 
-        self.creditsLabel = QLabel("Credits: "+str(self.game.credits))
+        self.creditsLabel = QLabel("CREDITS: "+str(self.game.credits))
         font = self.creditsLabel.font()
         font.setPointSize(16)
         self.creditsLabel.setFont(font)
-        self.betLabel = QLabel("Bet: "+str(self.game.bet))
+        self.betLabel = QLabel("BET: "+str(self.game.bet))
         font = self.betLabel.font()
         font.setPointSize(16)
         self.betLabel.setFont(font)
@@ -193,8 +193,8 @@ class GraphicalGame(QWidget):
             self.game.change_phase("bet")
 
         # refresh credits and bet label
-        self.creditsLabel.setText("Credits: "+str(self.game.credits))
-        self.betLabel.setText("Bet: "+str(self.game.bet))
+        self.creditsLabel.setText("CREDITS: "+str(self.game.credits))
+        self.betLabel.setText("BET: "+str(self.game.bet))
         self.creditsLabel.update()
         self.betLabel.update()
 
@@ -218,8 +218,8 @@ class GraphicalGame(QWidget):
         print(self.game.bet)
         print(self.game.credits)
         # refresh credits and bet label
-        self.creditsLabel.setText("Credits: "+str(self.game.credits))
-        self.betLabel.setText("Bet: "+str(self.game.bet))
+        self.creditsLabel.setText("CREDITS: "+str(self.game.credits))
+        self.betLabel.setText("BET: "+str(self.game.bet))
         self.creditsLabel.update()
         self.betLabel.update()
 
