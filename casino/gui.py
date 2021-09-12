@@ -48,8 +48,16 @@ class GraphicalGame(QWidget):
 
         for i in range(0, 5):
             holdButton = QPushButton("HOLD")
-            holdButton.setStyleSheet("background-color: #ffe73c;"
-                                    "color: black;")
+            holdButton.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : #ffe73c;"
+                             "color: black;"
+                             "}"
+                             "QPushButton::checked"
+                             "{"
+                             "background-color : gray;"
+                             "}"
+                             )
             font = holdButton.font()
             font.setPointSize(16)
             font.setBold(True)
@@ -57,7 +65,7 @@ class GraphicalGame(QWidget):
             holdButtonPolicy = holdButton.sizePolicy()
             holdButtonPolicy.setHorizontalPolicy(QSizePolicy.MinimumExpanding)
             #holdButton.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.MinimumExpanding)
-            holdButton.setCheckable(True)
+            holdButton.setCheckable(False)
             holdButton.clicked.connect(partial(self.onHoldButtonClick, idx=i))
             self.holdButtons.append(holdButton)
             self.grid.addWidget(holdButton, 3, i, QtCore.Qt.AlignVCenter)
@@ -104,7 +112,7 @@ class GraphicalGame(QWidget):
                         "background-color: #0000a0;"
                         "selection-color: #ffe73c;"
                         "selection-background-color: #0000a0;")
-        #self.setGeometry(50,50,200,200)
+        self.setGeometry(0,0,1024,600)
         self.show()
         #self.showFullScreen()
 
@@ -114,6 +122,7 @@ class GraphicalGame(QWidget):
         print("holdButton"+str(idx)+"Click")
         if self.game.phase != "hold":
             return
+        playsound("assets/audio/click.mp3")
         if checked:
             self.game.add_hold(idx)
         else:
@@ -123,6 +132,7 @@ class GraphicalGame(QWidget):
         print("dealButtonClick")
         for b in self.holdButtons:
             b.setChecked(False)
+            b.setCheckable(True)
         if self.game.phase == "bet" and self.game.bet > 0:
             self.game.deck.reset()
             print(len(self.game.deck.cards))
@@ -171,6 +181,8 @@ class GraphicalGame(QWidget):
                 winnings = PAYTABLE[score] * self.game.bet
                 print(score+"! you win "+str(winnings)+" credits!")
                 self.game.credits += winnings
+            else:
+                self.scoreLabel.setText("PLACE A BET")
             self.game.change_phase("bet")
 
         # refresh credits and bet label
@@ -203,7 +215,6 @@ class GraphicalGame(QWidget):
         self.betLabel.setText("Bet: "+str(self.game.bet))
         self.creditsLabel.update()
         self.betLabel.update()
-        self.update()
 
 
 
