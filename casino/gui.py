@@ -16,6 +16,7 @@ class GraphicalGame(QWidget):
         self.setLayout(self.grid)
 
         self.game = Game()
+        self.isDealing = False
         self.cardLabels = []
         self.holdButtons = []
 
@@ -130,6 +131,8 @@ class GraphicalGame(QWidget):
 
     def onDealButtonClick(self, checked):
         print("dealButtonClick")
+        if self.isDealing:
+            return
         for b in self.holdButtons:
             b.setChecked(False)
             b.setCheckable(True)
@@ -138,6 +141,7 @@ class GraphicalGame(QWidget):
             print(len(self.game.deck.cards))
             self.game.get_new_hand()
             score = self.game.hand.get_highest_score()
+            self.isDealing = True
             for idx, l in enumerate(self.cardLabels):
                 pixmap = QPixmap(self.game.hand.cards[idx].img_path)
                 #self.im = pixmap.scaledToWidth(120)
@@ -151,6 +155,7 @@ class GraphicalGame(QWidget):
                 self.scoreLabel.setText(score.replace("_", " ").upper())
                 self.scoreLabel.update()
                 playsound("assets/audio/pay.mp3")
+            self.isDealing = False
             self.game.change_phase("hold")
         elif self.game.phase == "hold":
             print(len(self.game.deck.cards))
@@ -158,6 +163,7 @@ class GraphicalGame(QWidget):
             # show score and update credits
             self.game.draw(self.game.hold_idxs)
             score = self.game.hand.get_highest_score()
+            self.isDealing = True
             for idx, l in enumerate(self.cardLabels):
                 if idx not in self.game.hold_idxs:
                     pixmap = QPixmap(self.game.hand.cards[idx].img_path)
@@ -183,6 +189,7 @@ class GraphicalGame(QWidget):
                 self.game.credits += winnings
             else:
                 self.scoreLabel.setText("PLACE A BET")
+            self.isDealing = False
             self.game.change_phase("bet")
 
         # refresh credits and bet label
