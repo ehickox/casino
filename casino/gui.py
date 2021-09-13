@@ -5,18 +5,148 @@ from PyQt5 import QtCore, Qt
 from PyQt5.QtGui import QPixmap, QIcon
 from functools import partial
 from cards import Deck
-from game import Game, PAYTABLE
+from game import VideoPokerGame, BlackJackGame, PAYTABLE
 from playsound import playsound
 
 class GraphicalGame(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.isDealing = False
+        self.global_credits = 10
+
         self.grid = QGridLayout()
         self.setLayout(self.grid)
 
-        self.game = Game()
-        self.isDealing = False
+        self.prepareMenu()
+
+        self.setWindowTitle("GAME PRINCE")
+        self.setStyleSheet("color: #ffe73c;"
+                        "background-color: #0000a0;"
+                        "selection-color: #ffe73c;"
+                        "selection-background-color: #0000a0;")
+        self.setGeometry(0,0,1024,600)
+        self.show()
+        #self.showFullScreen()
+
+    def clearLayout(self):
+        for i in reversed(range(self.layout().count())):
+            self.layout().itemAt(i).widget().setParent(None)
+
+    def prepareMenu(self):
+        self.jacksOrBetterButton = QPushButton("JACKS OR BETTER")
+        font = self.jacksOrBetterButton.font()
+        font.setPointSize(16)
+        font.setBold(True)
+        self.jacksOrBetterButton.setFont(font)
+        self.jacksOrBetterButton.setStyleSheet("background-color: #ffe73c;"
+                                    "color: black;")
+        self.jacksOrBetterButton.clicked.connect(self.onJacksOrBetterButtonClick)
+
+        self.blackJackButton = QPushButton("BLACKJACK (COMING SOON)")
+        font = self.blackJackButton.font()
+        font.setPointSize(16)
+        font.setBold(True)
+        self.blackJackButton.setFont(font)
+        self.blackJackButton.setStyleSheet("background-color: #ffe73c;"
+                                    "color: black;")
+        # self.blackJackButton.clicked.connect(self.onBlackJackButtonClick)
+
+        self.grid.addWidget(self.jacksOrBetterButton, 3, 1, QtCore.Qt.AlignCenter)
+        self.grid.addWidget(self.blackJackButton, 3, 3, QtCore.Qt.AlignCenter)
+        self.show()
+
+    def onMenuButtonClick(self):
+        if self.isDealing:
+            return
+        if self.game.phase == "bet" and self.game.bet > 0:
+            return
+        if self.game.phase == "hold":
+            return
+        self.clearLayout()
+        self.prepareMenu()
+
+    def onJacksOrBetterButtonClick(self):
+        self.clearLayout()
+        self.prepareJacksOrBetter()
+
+    def onBlackJackButtonClick(self):
+        self.clearLayout()
+        self.prepareBlackJack()
+
+    def prepareBlackJack(self):
+
+        self.game = BlackJackGame(credits=self.global_credits)
+
+        self.playerLabel = QLabel("PLAYER  ")
+        font = self.playerLabel.font()
+        font.setBold(True)
+        font.setPointSize(16)
+        self.playerLabel.setFont(font)
+        self.grid.addWidget(self.playerLabel, 0, 1, QtCore.Qt.AlignCenter)
+
+
+        self.dealerLabel = QLabel("DEALER  ")
+        font = self.dealerLabel.font()
+        font.setBold(True)
+        font.setPointSize(16)
+        self.dealerLabel.setFont(font)
+        self.grid.addWidget(self.dealerLabel, 0, 3, QtCore.Qt.AlignCenter)
+
+        # player hand
+
+        # dealer hand
+
+        self.betUpButton = QPushButton("BET 1")
+        self.betUpButton.setStyleSheet("background-color: #ffe73c;"
+                                    "color: black;")
+        font = self.betUpButton.font()
+        font.setPointSize(16)
+        font.setBold(True)
+        self.betUpButton.setFont(font)
+        self.betUpButton.clicked.connect(partial(self.onBetUpButtonClick))
+
+        self.menuButton = QPushButton("MORE GAMES")
+        self.menuButton.setStyleSheet("background-color: #ffe73c;"
+                                    "color: black;")
+        font = self.menuButton.font()
+        font.setPointSize(16)
+        font.setBold(True)
+        self.menuButton.setFont(font)
+        self.menuButton.clicked.connect(partial(self.onMenuButtonClick))
+
+        self.dealButton = QPushButton("DEAL")
+        self.dealButton.setStyleSheet("background-color: #ffe73c;"
+                                    "color: black;")
+        font = self.dealButton.font()
+        font.setPointSize(16)
+        font.setBold(True)
+        self.dealButton.setFont(font)
+        self.dealButton.clicked.connect(partial(self.onDealButtonClick))
+
+        self.creditsLabel = QLabel("CREDITS: "+str(self.game.credits))
+        font = self.creditsLabel.font()
+        font.setPointSize(16)
+        self.creditsLabel.setFont(font)
+        self.betLabel = QLabel("BET: "+str(self.game.bet))
+        font = self.betLabel.font()
+        font.setPointSize(16)
+        self.betLabel.setFont(font)
+
+        # spacer label
+        self.grid.addWidget(QLabel(""), 4, 0)
+
+        self.grid.addWidget(self.betUpButton, 5, 0)
+        self.grid.addWidget(self.creditsLabel, 5, 1)
+        self.grid.addWidget(self.menuButton, 5, 2)
+        self.grid.addWidget(self.betLabel, 5, 3)
+        self.grid.addWidget(self.dealButton, 5, 4)
+
+        self.show()
+
+
+    def prepareJacksOrBetter(self):
+        self.game = VideoPokerGame(credits=self.global_credits)
         self.cardLabels = []
         self.holdButtons = []
 
@@ -80,6 +210,15 @@ class GraphicalGame(QWidget):
         self.betUpButton.setFont(font)
         self.betUpButton.clicked.connect(partial(self.onBetUpButtonClick))
 
+        self.menuButton = QPushButton("MORE GAMES")
+        self.menuButton.setStyleSheet("background-color: #ffe73c;"
+                                    "color: black;")
+        font = self.menuButton.font()
+        font.setPointSize(16)
+        font.setBold(True)
+        self.menuButton.setFont(font)
+        self.menuButton.clicked.connect(partial(self.onMenuButtonClick))
+
         self.dealButton = QPushButton("DEAL")
         self.dealButton.setStyleSheet("background-color: #ffe73c;"
                                     "color: black;")
@@ -103,19 +242,11 @@ class GraphicalGame(QWidget):
 
         self.grid.addWidget(self.betUpButton, 5, 0)
         self.grid.addWidget(self.creditsLabel, 5, 1)
+        self.grid.addWidget(self.menuButton, 5, 2)
         self.grid.addWidget(self.betLabel, 5, 3)
         self.grid.addWidget(self.dealButton, 5, 4)
 
-
-        self.setLayout(self.grid)
-        self.setWindowTitle("VIDEO POKER")
-        self.setStyleSheet("color: #ffe73c;"
-                        "background-color: #0000a0;"
-                        "selection-color: #ffe73c;"
-                        "selection-background-color: #0000a0;")
-        self.setGeometry(0,0,1024,600)
         self.show()
-        #self.showFullScreen()
 
     def onHoldButtonClick(self, checked, idx):
         print(checked) #<- only used if the button is checkable

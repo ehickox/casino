@@ -15,21 +15,12 @@ PAYTABLE["two_pair"] = 2 # 'Full Play Paytable is 2 here. Most Vegas casinos wil
 PAYTABLE["pair"] = 1
 
 class Game(object):
-
     def __init__(self, deck=Deck(), credits=10):
         self.deck = deck
         self.credits = credits
         self.bet = 0
         self.phase = "bet"
         self.hand = None
-        self.hold_idxs = []
-
-    def change_phase(self, p: str):
-        self.phase = p
-        if p == "hold":
-            self.hold_idxs = []
-        elif p == "bet":
-            self.bet = 0
 
     def add_bet(self, amt: int):
         if amt > self.credits:
@@ -40,6 +31,39 @@ class Game(object):
             return
         self.credits -= amt
         self.bet += amt
+
+class BlackJackGame(Game):
+
+    def __init__(self, deck=Deck(), credits=10):
+        super(BlackJackGame, self).__init__(deck=deck, credits=credits)
+        self.dealer_hand = None
+
+    def change_phase(self, p: str):
+        self.phase = p
+        if p == "action":
+            self.hold_idxs = []
+        elif p == "bet":
+            self.bet = 0
+
+    def get_new_hand(self):
+        if self.phase != "bet":
+            return
+        self.hand = self.deck.get_hand()
+        self.change_phase("action")
+        return self.hand
+
+class VideoPokerGame(Game):
+
+    def __init__(self, deck=Deck(), credits=10):
+        super(VideoPokerGame, self).__init__(deck=deck, credits=credits)
+        self.hold_idxs = []
+
+    def change_phase(self, p: str):
+        self.phase = p
+        if p == "hold":
+            self.hold_idxs = []
+        elif p == "bet":
+            self.bet = 0
 
     def add_hold(self, idx: int):
         if self.phase != "hold":
