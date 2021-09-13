@@ -20,6 +20,12 @@ class Card(object):
         if numerical_value > 10:
             self.value = name[0].upper()
         self.img_path = "assets/images/"+str(self.value)+self.suit[0].upper()+".png"
+        self.blackjack_value = numerical_value
+
+        if name in ["jack", "queen", "king"]:
+            self.blackjack_value = 10
+        if name == "ace":
+            self.blackjack_value = 1
 
     def __repr__(self):
         return self.value + " " +self.symbol
@@ -85,6 +91,26 @@ class Hand(object):
 
     def __init__(self, cards):
         self.cards = cards
+
+    def get_blackjack_score(self):
+        total = 0
+        ace_found = False
+        soft = False
+
+        for card in self.cards:
+            total += card.blackjack_value
+
+            if card.blackjack_value == 1:
+                ace_found = True
+
+        if total < 12 and ace_found:
+            total += 10
+            soft = True
+
+        return total
+
+    def check_bust(self):
+        return self.get_blackjack_score() > 21
 
     def get_highest_score(self):
         if self.check_royal_flush():

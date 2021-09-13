@@ -94,6 +94,36 @@ class GraphicalGame(QWidget):
         self.grid.addWidget(self.dealerLabel, 0, 3, QtCore.Qt.AlignCenter)
 
         # player hand
+        self.playerWidget = QWidget()
+        self.cardLabels = []
+        self.game.player_hand = self.game.deck.get_hand(2)
+        for idx, c in enumerate(self.game.player_hand.cards):
+            print(c)
+            pixmap = QPixmap(c.img_path)
+            im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
+            label = QLabel()
+            label.setPixmap(im)
+            label.setScaledContents(True)
+            label.setContentsMargins(0, 50, 50, 50)
+            self.cardLabels.append(label)
+            if idx == 0:
+                self.grid.addWidget(label, 1, 1, QtCore.Qt.AlignCenter)
+            label.update()
+            print(label.geometry().topLeft())
+            if idx > 0 and idx < 3:
+                shifty = 25 * idx
+                shiftx = 25 * idx
+                label = QLabel(self.cardLabels[idx-1])
+                label.setPixmap(im)
+                p = self.geometry().topLeft() + self.cardLabels[idx-1].geometry().topLeft() + QtCore.QPoint(shifty, shiftx)
+                print(self.cardLabels[idx-1].geometry().topLeft())
+                print(str(shifty)+" "+str(shiftx))
+                print(p)
+                label.move(p)
+            elif idx > 0 and idx >= 3:
+                # figure out different shift pattern for second row
+                pass
+            label.update()
 
         # dealer hand
 
