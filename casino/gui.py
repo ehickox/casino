@@ -106,7 +106,7 @@ class GraphicalGame(QWidget):
         for idx, c in enumerate(self.game.player_hand.cards):
             print(c)
             pixmap = QPixmap(c.img_path)
-            im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
+            im = pixmap.scaled(220, 220, QtCore.Qt.KeepAspectRatio)
             label = QLabel()
             label.setPixmap(im)
             label.setScaledContents(True)
@@ -188,9 +188,9 @@ class GraphicalGame(QWidget):
 
         for i in range(0, 5):
             pixmap = QPixmap('assets/images/red_back.png')
-            # im = pixmap.scaledToWidth(240)
-            # im = pixmap.scaledToHeight(240)
-            im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
+            # im = pixmap.scaledToWidth(220)
+            # im = pixmap.scaledToHeight(220)
+            im = pixmap.scaled(220, 220, QtCore.Qt.KeepAspectRatio)
             label = QLabel()
             label.setPixmap(im)
             label.setScaledContents(True)
@@ -322,8 +322,8 @@ class GraphicalGame(QWidget):
             for idx, l in enumerate(self.cardLabels):
                 pixmap = QPixmap(self.game.hand.cards[idx].img_path)
                 #self.im = pixmap.scaledToWidth(120)
-                # im = pixmap.scaledToHeight(240)
-                im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
+                # im = pixmap.scaledToHeight(220)
+                im = pixmap.scaled(220, 220, QtCore.Qt.KeepAspectRatio)
                 l.setPixmap(im)
                 playsound("assets/audio/click.mp3")
                 time.sleep(0.2)
@@ -345,8 +345,8 @@ class GraphicalGame(QWidget):
                 if idx not in self.game.hold_idxs:
                     pixmap = QPixmap(self.game.hand.cards[idx].img_path)
                     #self.im = pixmap.scaledToWidth(120)
-                    # im = pixmap.scaledToHeight(240)
-                    im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
+                    # im = pixmap.scaledToHeight(220)
+                    im = pixmap.scaled(220, 220, QtCore.Qt.KeepAspectRatio)
                     l.setPixmap(im)
                     playsound("assets/audio/click.mp3")
                     time.sleep(0.2)
@@ -387,8 +387,8 @@ class GraphicalGame(QWidget):
             for idx, l in enumerate(self.cardLabels):
                 pixmap = QPixmap('assets/images/red_back.png')
                 #self.im = pixmap.scaledToWidth(120)
-                # im = pixmap.scaledToHeight(240)
-                im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
+                # im = pixmap.scaledToHeight(220)
+                im = pixmap.scaled(220, 220, QtCore.Qt.KeepAspectRatio)
                 l.setPixmap(im)
                 l.update()
         self.game.add_bet(1)
