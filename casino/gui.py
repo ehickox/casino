@@ -8,6 +8,28 @@ from cards import Deck
 from game import VideoPokerGame, BlackJackGame, PAYTABLE
 from playsound import playsound
 
+YELLOW_BUTTON_STYLE = """
+    QPushButton {
+    background-color: yellow;
+    color: black;
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 5px;
+    padding: 6px
+    padding-left 6px;
+    padding-right 6px;
+    }
+    QPushButton::pressed
+    {
+    background-color: gray;
+    border-style: inset;
+    }
+    QPushButton::checked
+    {
+    background-color : red;
+    }
+"""
+
 class GraphicalGame(QWidget):
 
     def __init__(self):
@@ -39,14 +61,12 @@ class GraphicalGame(QWidget):
             self.layout().itemAt(i).widget().setParent(None)
 
     def prepareMenu(self):
-        self.jacksOrBetterButton = QPushButton("JACKS OR BETTER")
+        self.jacksOrBetterButton = QPushButton(" JACKS OR BETTER ")
         font = self.jacksOrBetterButton.font()
         font.setPointSize(18)
         font.setBold(True)
         self.jacksOrBetterButton.setFont(font)
-        self.jacksOrBetterButton.setStyleSheet("background: yellow;"
-                                    "color: black;"
-                                    "border-radius 5px;")
+        self.jacksOrBetterButton.setStyleSheet(YELLOW_BUTTON_STYLE)
         self.jacksOrBetterButton.clicked.connect(self.onJacksOrBetterButtonClick)
 
         self.blackJackButton = QPushButton("BLACKJACK (COMING SOON)")
@@ -54,8 +74,7 @@ class GraphicalGame(QWidget):
         font.setPointSize(18)
         font.setBold(True)
         self.blackJackButton.setFont(font)
-        self.blackJackButton.setStyleSheet("background: #ffe73c;"
-                                    "color: black;")
+        self.blackJackButton.setStyleSheet(YELLOW_BUTTON_STYLE)
         # self.blackJackButton.clicked.connect(self.onBlackJackButtonClick)
 
         self.grid.addWidget(self.jacksOrBetterButton, 3, 1, QtCore.Qt.AlignCenter)
@@ -216,16 +235,7 @@ class GraphicalGame(QWidget):
 
         for i in range(0, 5):
             holdButton = QPushButton("HOLD")
-            holdButton.setStyleSheet("QPushButton"
-                             "{"
-                             "background : #ffe73c;"
-                             "color: black;"
-                             "}"
-                             "QPushButton::checked"
-                             "{"
-                             "background : red;"
-                             "}"
-                             )
+            holdButton.setStyleSheet(YELLOW_BUTTON_STYLE)
             font = holdButton.font()
             font.setPointSize(16)
             font.setBold(True)
@@ -240,8 +250,7 @@ class GraphicalGame(QWidget):
             holdButton.update()
 
         self.betUpButton = QPushButton("BET 1")
-        self.betUpButton.setStyleSheet("background: #ffe73c;"
-                                    "color: black;")
+        self.betUpButton.setStyleSheet(YELLOW_BUTTON_STYLE)
         font = self.betUpButton.font()
         font.setPointSize(16)
         font.setBold(True)
@@ -250,8 +259,7 @@ class GraphicalGame(QWidget):
         self.betUpButton.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.MinimumExpanding)
 
         self.menuButton = QPushButton("MORE GAMES")
-        self.menuButton.setStyleSheet("background: #ffe73c;"
-                                    "color: black;")
+        self.menuButton.setStyleSheet(YELLOW_BUTTON_STYLE)
         font = self.menuButton.font()
         font.setPointSize(16)
         font.setBold(True)
@@ -260,8 +268,7 @@ class GraphicalGame(QWidget):
         self.menuButton.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.MinimumExpanding)
 
         self.dealButton = QPushButton("DEAL")
-        self.dealButton.setStyleSheet("background: #ffe73c;"
-                                    "color: black;")
+        self.dealButton.setStyleSheet(YELLOW_BUTTON_STYLE)
         font = self.dealButton.font()
         font.setPointSize(16)
         font.setBold(True)
