@@ -25,9 +25,14 @@ class GraphicalGame(QWidget):
                         "background-color: #0000a0;"
                         "selection-color: #ffe73c;"
                         "selection-background-color: #0000a0;")
-        self.setGeometry(0,0,1024,500)
-        self.show()
+        self.setGeometry(0,0,1024,600)
+
+
+        #self.setCursor(QtCore.Qt.BlankCursor)
         #self.showFullScreen()
+
+
+        self.show()
 
     def clearLayout(self):
         for i in reversed(range(self.layout().count())):
@@ -55,7 +60,7 @@ class GraphicalGame(QWidget):
 
         self.grid.addWidget(self.jacksOrBetterButton, 3, 1, QtCore.Qt.AlignCenter)
         self.grid.addWidget(self.blackJackButton, 3, 3, QtCore.Qt.AlignCenter)
-        self.show()
+        self.update()
 
     def onMenuButtonClick(self):
         if self.isDealing:
@@ -197,7 +202,7 @@ class GraphicalGame(QWidget):
 
         self.payTableLable = QLabel(paytable_text)
         font = self.payTableLable.font()
-        font.setPointSize(10)
+        font.setPointSize(12)
         font.setBold(True)
         self.payTableLable.setFont(font)
         self.grid.addWidget(self.payTableLable, 0, 0, 1, 2)
