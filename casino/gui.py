@@ -36,16 +36,17 @@ class GraphicalGame(QWidget):
     def prepareMenu(self):
         self.jacksOrBetterButton = QPushButton("JACKS OR BETTER")
         font = self.jacksOrBetterButton.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.jacksOrBetterButton.setFont(font)
         self.jacksOrBetterButton.setStyleSheet("background: #ffe73c;"
-                                    "color: black;")
+                                    "color: black;"
+                                    "border none;")
         self.jacksOrBetterButton.clicked.connect(self.onJacksOrBetterButtonClick)
 
         self.blackJackButton = QPushButton("BLACKJACK (COMING SOON)")
         font = self.blackJackButton.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.blackJackButton.setFont(font)
         self.blackJackButton.setStyleSheet("background: #ffe73c;"
@@ -81,7 +82,7 @@ class GraphicalGame(QWidget):
         self.playerLabel = QLabel("PLAYER  ")
         font = self.playerLabel.font()
         font.setBold(True)
-        font.setPointSize(16)
+        font.setPointSize(18)
         self.playerLabel.setFont(font)
         self.grid.addWidget(self.playerLabel, 0, 1, QtCore.Qt.AlignCenter)
 
@@ -89,7 +90,7 @@ class GraphicalGame(QWidget):
         self.dealerLabel = QLabel("DEALER  ")
         font = self.dealerLabel.font()
         font.setBold(True)
-        font.setPointSize(16)
+        font.setPointSize(18)
         self.dealerLabel.setFont(font)
         self.grid.addWidget(self.dealerLabel, 0, 3, QtCore.Qt.AlignCenter)
 
@@ -131,7 +132,7 @@ class GraphicalGame(QWidget):
         self.betUpButton.setStyleSheet("background: #ffe73c;"
                                     "color: black;")
         font = self.betUpButton.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.betUpButton.setFont(font)
         self.betUpButton.clicked.connect(partial(self.onBetUpButtonClick))
@@ -140,7 +141,7 @@ class GraphicalGame(QWidget):
         self.menuButton.setStyleSheet("background: #ffe73c;"
                                     "color: black;")
         font = self.menuButton.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.menuButton.setFont(font)
         self.menuButton.clicked.connect(partial(self.onMenuButtonClick))
@@ -149,18 +150,18 @@ class GraphicalGame(QWidget):
         self.dealButton.setStyleSheet("background: #ffe73c;"
                                     "color: black;")
         font = self.dealButton.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.dealButton.setFont(font)
         self.dealButton.clicked.connect(partial(self.onDealButtonClick))
 
         self.creditsLabel = QLabel("CREDITS: "+str(self.game.credits))
         font = self.creditsLabel.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         self.creditsLabel.setFont(font)
         self.betLabel = QLabel("BET: "+str(self.game.bet))
         font = self.betLabel.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         self.betLabel.setFont(font)
 
         # spacer label
@@ -196,7 +197,7 @@ class GraphicalGame(QWidget):
 
         self.payTableLable = QLabel(paytable_text)
         font = self.payTableLable.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.payTableLable.setFont(font)
         self.grid.addWidget(self.payTableLable, 0, 0, 1, 2)
@@ -204,7 +205,7 @@ class GraphicalGame(QWidget):
         self.scoreLabel = QLabel("PLACE A BET")
         font = self.scoreLabel.font()
         font.setBold(True)
-        font.setPointSize(16)
+        font.setPointSize(18)
         self.scoreLabel.setFont(font)
         self.grid.addWidget(self.scoreLabel, 0, 3, 1, 2)
 
@@ -221,7 +222,7 @@ class GraphicalGame(QWidget):
                              "}"
                              )
             font = holdButton.font()
-            font.setPointSize(16)
+            font.setPointSize(18)
             font.setBold(True)
             holdButton.setFont(font)
             holdButtonPolicy = holdButton.sizePolicy()
@@ -236,7 +237,7 @@ class GraphicalGame(QWidget):
         self.betUpButton.setStyleSheet("background: #ffe73c;"
                                     "color: black;")
         font = self.betUpButton.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.betUpButton.setFont(font)
         self.betUpButton.clicked.connect(partial(self.onBetUpButtonClick))
@@ -245,7 +246,7 @@ class GraphicalGame(QWidget):
         self.menuButton.setStyleSheet("background: #ffe73c;"
                                     "color: black;")
         font = self.menuButton.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.menuButton.setFont(font)
         self.menuButton.clicked.connect(partial(self.onMenuButtonClick))
@@ -254,19 +255,19 @@ class GraphicalGame(QWidget):
         self.dealButton.setStyleSheet("background: #ffe73c;"
                                     "color: black;")
         font = self.dealButton.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.dealButton.setFont(font)
         self.dealButton.clicked.connect(partial(self.onDealButtonClick))
 
         self.creditsLabel = QLabel("CREDITS: "+str(self.game.credits))
         font = self.creditsLabel.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.creditsLabel.setFont(font)
         self.betLabel = QLabel("BET: "+str(self.game.bet))
         font = self.betLabel.font()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(True)
         self.betLabel.setFont(font)
 
