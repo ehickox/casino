@@ -13,15 +13,16 @@ YELLOW_BUTTON_STYLE = """
     background-color: yellow;
     color: black;
     border-style: outset;
-    border-width: 2px;
-    border-radius: 5px;
+    border-width: 5px;
+    border-radius: 3px;
+    border-color: #ffe73c;
     padding: 6px
     padding-left 6px;
     padding-right 6px;
     }
     QPushButton::pressed
     {
-    background-color: gray;
+    background-color: #ffe73c;
     border-style: inset;
     }
     QPushButton::checked
