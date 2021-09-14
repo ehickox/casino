@@ -28,6 +28,7 @@ YELLOW_BUTTON_STYLE = """
     QPushButton::checked
     {
     background-color : red;
+    border-color: red;
     }
 """
 
