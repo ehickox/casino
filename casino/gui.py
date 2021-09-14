@@ -88,6 +88,7 @@ class GraphicalGame(QWidget):
             return
         if self.game.phase == "hold":
             return
+        self.global_credits = self.game.credits
         self.clearLayout()
         self.prepareMenu()
 
