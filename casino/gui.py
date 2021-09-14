@@ -39,7 +39,7 @@ class GraphicalGame(QWidget):
         font.setPointSize(18)
         font.setBold(True)
         self.jacksOrBetterButton.setFont(font)
-        self.jacksOrBetterButton.setStyleSheet("background: #ffe73c;"
+        self.jacksOrBetterButton.setStyleSheet("background: yellow;"
                                     "color: black;"
                                     "border none;")
         self.jacksOrBetterButton.clicked.connect(self.onJacksOrBetterButtonClick)
