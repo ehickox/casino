@@ -122,10 +122,8 @@ class GraphicalGame(QWidget):
         self.grid.addWidget(self.dealerLabel, 0, 3, QtCore.Qt.AlignCenter)
 
         # player hand
-        self.playerWidget = QWidget()
-        self.playerWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.cardLabels = []
-        self.game.player_hand = self.game.deck.get_hand(2)
+        self.game.player_hand = self.game.deck.get_hand(3)
         score = str(self.game.player_hand.get_blackjack_score())
         self.playerLabel.setText("PLAYER  "+score)
         for idx, c in enumerate(self.game.player_hand.cards):
@@ -133,25 +131,22 @@ class GraphicalGame(QWidget):
             pixmap = QPixmap(c.img_path)
             im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
             if idx == 0:
-                label = QLabel(self.playerWidget)
+                label = QLabel()
                 label.setPixmap(im)
-                label.setScaledContents(True)
-                label.setContentsMargins(0, 50, 50, 50)
-                self.grid.addWidget(label, 1, 1, QtCore.Qt.AlignCenter)
+                label.setContentsMargins(0, 0, 80, 50)
                 self.cardLabels.append(label)
-                # label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                label.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
                 label.update()
             if idx > 0 and idx < 3:
                 shifty = 25
                 shiftx = 30
                 la = QLabel(self.cardLabels[idx-1])
                 la.setPixmap(im)
-                la.setScaledContents(True)
-                la.setContentsMargins(0, 50, 50, 50)
-                p = self.cardLabels[idx-1].geometry().topLeft() + QtCore.QPoint(shiftx, shifty)
+                la.setContentsMargins(0, 0, 30, 25)
+                p = QtCore.QPoint(shiftx, shifty)
                 la.move(p)
                 self.cardLabels.append(la)
-                # la.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                la.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
                 print(p)
                 print(c)
                 la.update()
@@ -159,6 +154,11 @@ class GraphicalGame(QWidget):
                 # figure out different shift pattern for second row
                 pass
 
+        self.grid.addWidget(self.cardLabels[0], 1, 1, QtCore.Qt.AlignCenter)
+
+
+        for l in self.cardLabels:
+            l.update()
         # dealer hand
 
         self.betUpButton = QPushButton("BET 1")
