@@ -123,9 +123,10 @@ class GraphicalGame(QWidget):
 
         # player hand
         self.cardLabels = []
-        self.game.player_hand = self.game.deck.get_hand(3)
+        self.game.player_hand = self.game.deck.get_hand(5)
         score = str(self.game.player_hand.get_blackjack_score())
         self.playerLabel.setText("PLAYER  "+score)
+        num_cards = len(self.game.player_hand.cards)
         for idx, c in enumerate(self.game.player_hand.cards):
             print(c)
             pixmap = QPixmap(c.img_path)
@@ -133,7 +134,7 @@ class GraphicalGame(QWidget):
             if idx == 0:
                 label = QLabel()
                 label.setPixmap(im)
-                label.setContentsMargins(0, 0, 80, 50)
+                label.setContentsMargins(0, 0, 30*(num_cards-1), 50*(num_cards-1))
                 self.cardLabels.append(label)
                 label.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
                 label.update()
@@ -150,9 +151,34 @@ class GraphicalGame(QWidget):
                 print(p)
                 print(c)
                 la.update()
-            elif idx > 0 and idx >= 3:
+            elif idx == 3:
                 # figure out different shift pattern for second row
-                pass
+                shifty = 100
+                shiftx = 20
+                la = QLabel(self.cardLabels[0])
+                la.setPixmap(im)
+                la.setContentsMargins(0, 0, 30*(num_cards-1), 50*(num_cards-1))
+                p = QtCore.QPoint(shiftx, shifty)
+                la.move(p)
+                self.cardLabels.append(la)
+                la.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                print(p)
+                print(c)
+                la.update()
+            elif idx > 3:
+                shifty = 25
+                shiftx = 30
+                la = QLabel(self.cardLabels[idx-1])
+                la.setPixmap(im)
+                la.setContentsMargins(0, 0, 30, 25)
+                p = QtCore.QPoint(shiftx, shifty)
+                la.move(p)
+                self.cardLabels.append(la)
+                la.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                print(p)
+                print(c)
+                la.update()
+
 
         self.grid.addWidget(self.cardLabels[0], 1, 1, QtCore.Qt.AlignCenter)
 
