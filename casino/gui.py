@@ -123,35 +123,41 @@ class GraphicalGame(QWidget):
 
         # player hand
         self.playerWidget = QWidget()
+        self.playerWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.cardLabels = []
         self.game.player_hand = self.game.deck.get_hand(2)
+        score = str(self.game.player_hand.get_blackjack_score())
+        self.playerLabel.setText("PLAYER  "+score)
         for idx, c in enumerate(self.game.player_hand.cards):
             print(c)
             pixmap = QPixmap(c.img_path)
-            im = pixmap.scaled(220, 220, QtCore.Qt.KeepAspectRatio)
-            label = QLabel()
-            label.setPixmap(im)
-            label.setScaledContents(True)
-            label.setContentsMargins(0, 50, 50, 50)
-            self.cardLabels.append(label)
+            im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
             if idx == 0:
-                self.grid.addWidget(label, 1, 1, QtCore.Qt.AlignCenter)
-            label.update()
-            print(label.geometry().topLeft())
-            if idx > 0 and idx < 3:
-                shifty = 25 * idx
-                shiftx = 25 * idx
-                label = QLabel(self.cardLabels[idx-1])
+                label = QLabel(self.playerWidget)
                 label.setPixmap(im)
-                p = self.geometry().topLeft() + self.cardLabels[idx-1].geometry().topLeft() + QtCore.QPoint(shifty, shiftx)
-                print(self.cardLabels[idx-1].geometry().topLeft())
-                print(str(shifty)+" "+str(shiftx))
+                label.setScaledContents(True)
+                label.setContentsMargins(0, 50, 50, 50)
+                self.grid.addWidget(label, 1, 1, QtCore.Qt.AlignCenter)
+                self.cardLabels.append(label)
+                # label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                label.update()
+            if idx > 0 and idx < 3:
+                shifty = 25
+                shiftx = 30
+                la = QLabel(self.cardLabels[idx-1])
+                la.setPixmap(im)
+                la.setScaledContents(True)
+                la.setContentsMargins(0, 50, 50, 50)
+                p = self.cardLabels[idx-1].geometry().topLeft() + QtCore.QPoint(shiftx, shifty)
+                la.move(p)
+                self.cardLabels.append(la)
+                # la.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
                 print(p)
-                label.move(p)
+                print(c)
+                la.update()
             elif idx > 0 and idx >= 3:
                 # figure out different shift pattern for second row
                 pass
-            label.update()
 
         # dealer hand
 
@@ -200,7 +206,7 @@ class GraphicalGame(QWidget):
         self.grid.addWidget(self.betLabel, 5, 3)
         self.grid.addWidget(self.dealButton, 5, 4)
 
-        self.show()
+        self.update()
 
 
     def prepareJacksOrBetter(self):
@@ -210,9 +216,9 @@ class GraphicalGame(QWidget):
 
         for i in range(0, 5):
             pixmap = QPixmap('assets/images/red_back.png')
-            # im = pixmap.scaledToWidth(220)
-            # im = pixmap.scaledToHeight(220)
-            im = pixmap.scaled(220, 220, QtCore.Qt.KeepAspectRatio)
+            # im = pixmap.scaledToWidth(240)
+            # im = pixmap.scaledToHeight(240)
+            im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
             label = QLabel()
             label.setPixmap(im)
             label.setScaledContents(True)
@@ -224,7 +230,7 @@ class GraphicalGame(QWidget):
 
         self.payTableLable = QLabel(paytable_text)
         font = self.payTableLable.font()
-        font.setPointSize(12)
+        font.setPointSize(14)
         font.setBold(True)
         self.payTableLable.setFont(font)
         self.grid.addWidget(self.payTableLable, 0, 0, 1, 2)
@@ -332,8 +338,8 @@ class GraphicalGame(QWidget):
             for idx, l in enumerate(self.cardLabels):
                 pixmap = QPixmap(self.game.hand.cards[idx].img_path)
                 #self.im = pixmap.scaledToWidth(120)
-                # im = pixmap.scaledToHeight(220)
-                im = pixmap.scaled(220, 220, QtCore.Qt.KeepAspectRatio)
+                # im = pixmap.scaledToHeight(240)
+                im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
                 l.setPixmap(im)
                 playsound("assets/audio/click.mp3")
                 time.sleep(0.2)
@@ -355,8 +361,8 @@ class GraphicalGame(QWidget):
                 if idx not in self.game.hold_idxs:
                     pixmap = QPixmap(self.game.hand.cards[idx].img_path)
                     #self.im = pixmap.scaledToWidth(120)
-                    # im = pixmap.scaledToHeight(220)
-                    im = pixmap.scaled(220, 220, QtCore.Qt.KeepAspectRatio)
+                    # im = pixmap.scaledToHeight(240)
+                    im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
                     l.setPixmap(im)
                     playsound("assets/audio/click.mp3")
                     time.sleep(0.2)
@@ -397,8 +403,8 @@ class GraphicalGame(QWidget):
             for idx, l in enumerate(self.cardLabels):
                 pixmap = QPixmap('assets/images/red_back.png')
                 #self.im = pixmap.scaledToWidth(120)
-                # im = pixmap.scaledToHeight(220)
-                im = pixmap.scaled(220, 220, QtCore.Qt.KeepAspectRatio)
+                # im = pixmap.scaledToHeight(240)
+                im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
                 l.setPixmap(im)
                 l.update()
         self.game.add_bet(1)
