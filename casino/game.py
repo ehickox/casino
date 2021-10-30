@@ -4,7 +4,7 @@ from playsound import playsound
 from typing import List
 
 PAYTABLE = OrderedDict()
-PAYTABLE["royal_flush"] = 500
+PAYTABLE["royal_flush"] = 250
 PAYTABLE["straight_flush"] = 50
 PAYTABLE["four_of_a_kind"] = 25
 PAYTABLE["full_house"] = 9
