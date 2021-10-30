@@ -129,7 +129,7 @@ class GraphicalGame(QWidget):
         num_cards = len(self.game.player_hand.cards)
         for idx, c in enumerate(self.game.player_hand.cards):
             print(c)
-            pixmap = QPixmap(c.img_path)
+            pixmap = QPixmap(c.img_path, "1")
             im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
             if idx == 0:
                 label = QLabel()
@@ -241,7 +241,7 @@ class GraphicalGame(QWidget):
         self.holdButtons = []
 
         for i in range(0, 5):
-            pixmap = QPixmap('assets/images/red_back.png')
+            pixmap = QPixmap('assets/images/red_back.png', "1")
             # im = pixmap.scaledToWidth(240)
             # im = pixmap.scaledToHeight(240)
             im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
@@ -362,7 +362,7 @@ class GraphicalGame(QWidget):
             score = self.game.hand.get_highest_score()
             self.isDealing = True
             for idx, l in enumerate(self.cardLabels):
-                pixmap = QPixmap(self.game.hand.cards[idx].img_path)
+                pixmap = QPixmap(self.game.hand.cards[idx].img_path, "1")
                 #self.im = pixmap.scaledToWidth(120)
                 # im = pixmap.scaledToHeight(240)
                 im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
@@ -385,7 +385,7 @@ class GraphicalGame(QWidget):
             self.isDealing = True
             for idx, l in enumerate(self.cardLabels):
                 if idx not in self.game.hold_idxs:
-                    pixmap = QPixmap(self.game.hand.cards[idx].img_path)
+                    pixmap = QPixmap(self.game.hand.cards[idx].img_path, "1")
                     #self.im = pixmap.scaledToWidth(120)
                     # im = pixmap.scaledToHeight(240)
                     im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
@@ -427,7 +427,7 @@ class GraphicalGame(QWidget):
             self.scoreLabel.update()
             # new game so make the cards face back
             for idx, l in enumerate(self.cardLabels):
-                pixmap = QPixmap('assets/images/red_back.png')
+                pixmap = QPixmap('assets/images/red_back.png', "1")
                 #self.im = pixmap.scaledToWidth(120)
                 # im = pixmap.scaledToHeight(240)
                 im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
