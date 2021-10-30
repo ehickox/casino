@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['gui.py'],
-             pathex=['/home/ehickox/projects/casino/casino'],
+             pathex=['/home/pi/casino/casino'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -24,7 +24,7 @@ exe = EXE(pyz,
           a.scripts,
           a.binaries,
           a.zipfiles,
-          a.datas,  
+          a.datas,
           [],
           name='gui',
           debug=False,
