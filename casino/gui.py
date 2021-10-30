@@ -344,7 +344,7 @@ class GraphicalGame(QWidget):
         print("holdButton"+str(idx)+"Click")
         if self.game.phase != "hold":
             return
-        playsound("assets/audio/click.mp3")
+        playsound(CASINO_PATH + "casino/assets/audio/click.mp3")
         if checked:
             self.game.add_hold(idx)
         else:
@@ -369,13 +369,13 @@ class GraphicalGame(QWidget):
                 # im = pixmap.scaledToHeight(240)
                 im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
                 l.setPixmap(im)
-                playsound("assets/audio/click.mp3")
+                playsound(CASINO_PATH + "casino/assets/audio/click.mp3")
                 time.sleep(0.2)
                 l.update()
             if score:
                 self.scoreLabel.setText(score.replace("_", " ").upper())
                 self.scoreLabel.update()
-                playsound("assets/audio/pay.mp3")
+                playsound(CASINO_PATH + "casino/assets/audio/pay.mp3")
             self.isDealing = False
             self.game.change_phase("hold")
         elif self.game.phase == "hold":
@@ -392,18 +392,18 @@ class GraphicalGame(QWidget):
                     # im = pixmap.scaledToHeight(240)
                     im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
                     l.setPixmap(im)
-                    playsound("assets/audio/click.mp3")
+                    playsound(CASINO_PATH + "casino/assets/audio/click.mp3")
                     time.sleep(0.2)
                     l.update()
             if score:
                 self.scoreLabel.setText(score.upper().replace("_", " "))
                 self.scoreLabel.update()
                 if PAYTABLE[score] < 3:
-                    playsound("assets/audio/pay2.mp3")
+                    playsound(CASINO_PATH + "casino/assets/audio/pay2.mp3")
                 elif PAYTABLE[score] >= 3 and PAYTABLE[score] < 10:
-                    playsound("assets/audio/pay3.mp3")
+                    playsound(CASINO_PATH + "casino/assets/audio/pay3.mp3")
                 else:
-                    playsound("assets/audio/pay4.mp3")
+                    playsound(CASINO_PATH + "casino/assets/audio/pay4.mp3")
 
                 winnings = PAYTABLE[score] * self.game.bet
                 print(score+"! you win "+str(winnings)+" credits!")
