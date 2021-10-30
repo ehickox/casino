@@ -34,10 +34,10 @@ YELLOW_BUTTON_STYLE = """
 
 class GraphicalGame(QWidget):
 
-    def __init__(self):
+    def __init__(self, credits=10):
         super().__init__()
         self.isDealing = False
-        self.global_credits = 10
+        self.global_credits = credits
 
         self.grid = QGridLayout()
         self.setLayout(self.grid)
@@ -445,6 +445,9 @@ class GraphicalGame(QWidget):
 
 
 if __name__ == '__main__':
+    credits = 10
+    if len(sys.argv) == 2:
+        credits = int(sys.argv[1])
     app = QApplication(sys.argv)
-    ex = GraphicalGame()
+    ex = GraphicalGame(credits)
     sys.exit(app.exec_())
