@@ -215,7 +215,7 @@ class Hand(object):
 
     def pretty_print(self):
         for i, c in enumerate(self.cards):
-            playsound("assets/audio/click.mp3")
+            playsound(CASINO_PATH + "casino/assets/audio/click.mp3")
             if i == 0:
                 sys.stdout.write("| "+str(c)+" |")
             else:

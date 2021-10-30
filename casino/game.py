@@ -169,5 +169,5 @@ class VideoPokerGame(Game):
             if c is None:
                 new_cards[idx] = self.deck.get_hand(1).cards[0]
                 if sound:
-                    playsound("assets/audio/click.mp3")
+                    playsound(CASINO_PATH + "casino/assets/audio/click.mp3")
         self.hand.cards = new_cards
