@@ -1,6 +1,6 @@
 import random
 import time
-import sys
+import sys, os
 import requests
 from collections import defaultdict
 from playsound import playsound
@@ -12,6 +12,7 @@ card_order_dict = {"2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "10":
 class Card(object):
 
     def __init__(self, suit, numerical_value, name, symbol=None):
+        casino_path = os.getenv("CASINO_PATH", "/home/ehickox/projects/casino")
         self.suit = suit
         self.numerical_value = numerical_value
         self.name = name
@@ -19,7 +20,7 @@ class Card(object):
         self.value = str(numerical_value)
         if numerical_value > 10:
             self.value = name[0].upper()
-        self.img_path = "assets/images/"+str(self.value)+self.suit[0].upper()+".png"
+        self.img_path = casino_path + "/casino/assets/images/"+str(self.value)+self.suit[0].upper()+".png"
         self.blackjack_value = numerical_value
 
         if name in ["jack", "queen", "king"]:

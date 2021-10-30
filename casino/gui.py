@@ -1,4 +1,4 @@
-import sys, time
+import sys, time, os
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QPushButton, QMainWindow, QSizePolicy
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import QtCore, Qt
@@ -7,6 +7,8 @@ from functools import partial
 from cards import Deck
 from game import VideoPokerGame, BlackJackGame, PAYTABLE
 from playsound import playsound
+
+CASINO_PATH = os.getenv("CASINO_PATH", "/home/ehickox/projects/casino")
 
 YELLOW_BUTTON_STYLE = """
     QPushButton {
@@ -241,7 +243,7 @@ class GraphicalGame(QWidget):
         self.holdButtons = []
 
         for i in range(0, 5):
-            pixmap = QPixmap('/home/pi/casino/casino/assets/images/red_back.png')
+            pixmap = QPixmap(CASINO_PATH + '/casino/assets/images/red_back.png')
             # im = pixmap.scaledToWidth(240)
             # im = pixmap.scaledToHeight(240)
             im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
@@ -427,7 +429,7 @@ class GraphicalGame(QWidget):
             self.scoreLabel.update()
             # new game so make the cards face back
             for idx, l in enumerate(self.cardLabels):
-                pixmap = QPixmap('/home/pi/casino/casino/assets/images/red_back.png')
+                pixmap = QPixmap(CASINO_PATH + '/casino/assets/images/red_back.png')
                 #self.im = pixmap.scaledToWidth(120)
                 # im = pixmap.scaledToHeight(240)
                 im = pixmap.scaled(240, 240, QtCore.Qt.KeepAspectRatio)
