@@ -122,7 +122,7 @@ class VideoPokerGame(Game):
         score = self.hand.get_highest_score()
         if score:
             print(score)
-            playsound("assets/audio/pay.mp3")
+            playsound(CASINO_PATH + "casino/assets/audio/pay.mp3")
         holds = []
         while True:
             raw = input("cards to hold> ")
@@ -147,11 +147,11 @@ class VideoPokerGame(Game):
             print("better luck next time!")
         else:
             if PAYTABLE[score] < 3:
-                playsound("assets/audio/pay2.mp3")
+                playsound(CASINO_PATH + "casino/assets/audio/pay2.mp3")
             elif PAYTABLE[score] >= 3 and PAYTABLE[score] < 10:
-                playsound("assets/audio/pay3.mp3")
+                playsound(CASINO_PATH + "casino/assets/audio/pay3.mp3")
             else:
-                playsound("assets/audio/pay4.mp3")
+                playsound(CASINO_PATH + "casino/assets/audio/pay4.mp3")
             winnings = PAYTABLE[score] * bet
             print(score+"! you win "+str(winnings)+" credits!")
             self.credits += winnings
