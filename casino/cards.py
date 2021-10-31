@@ -76,9 +76,12 @@ class Deck(object):
         return Hand(hand)
 
     def shuffle(self):
-        beacon_resp = requests.get("https://beacon.nist.gov/beacon/2.0/pulse/last")
-        rand_seed = beacon_resp.json()["pulse"]["outputValue"]
-        random.seed(rand_seed)
+        try:
+            beacon_resp = requests.get("https://beacon.nist.gov/beacon/2.0/pulse/last")
+            rand_seed = beacon_resp.json()["pulse"]["outputValue"]
+            random.seed(rand_seed)
+        except Exception as e:
+            print("unable to use NIST beacon")
         random.shuffle(self.cards)
 
     def __repr__(self):
