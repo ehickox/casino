@@ -7,11 +7,11 @@ PAYTABLE = OrderedDict()
 PAYTABLE["royal_flush"] = 250
 PAYTABLE["straight_flush"] = 50
 PAYTABLE["four_of_a_kind"] = 25
-PAYTABLE["full_house"] = 9
-PAYTABLE["flush"] = 6
+PAYTABLE["full_house"] = 8
+PAYTABLE["flush"] = 5
 PAYTABLE["straight"] = 4
 PAYTABLE["three_of_a_kind"] = 3
-PAYTABLE["two_pair"] = 2 # 'Full Play Paytable is 2 here. Most Vegas casinos will do 1 here.'
+PAYTABLE["two_pair"] = 1 # 'Full Play Paytable is 2 here. Most Vegas casinos will do 1 here.'
 PAYTABLE["pair"] = 1
 
 class Game(object):
