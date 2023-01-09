@@ -8,7 +8,7 @@ from cards import Deck
 from game import VideoPokerGame, BlackJackGame, PAYTABLE
 from playsound import playsound
 
-CASINO_PATH = os.getenv("CASINO_PATH", "/home/ehickox/projects/casino/")
+CASINO_PATH = os.getenv("CASINO_PATH", "/path/to/casino/")
 
 YELLOW_BUTTON_STYLE = """
     QPushButton {

@@ -10,6 +10,7 @@ This was made as part of my Halloween costume for party in October 2021. I went 
 It plays Video Poker quite well. I had hopes to implement video blackjack, but I couldn't get the graphical component to work in time for the party.
 
 To use:
+- set CASINO_PATH environment variable to this directory
 - install python 3.8 using pyenv
 - install pipenv
 - install dependencies: `pipenv install -d`
