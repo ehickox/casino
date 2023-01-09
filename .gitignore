@@ -1,3 +1,4 @@
+.env
 casino/__pycache__/
 casino/__pycache__/**
 
